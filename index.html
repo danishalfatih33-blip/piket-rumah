@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piket Rumah Ceria Pro MAX - Alfatih & Syifa</title>
+  <title>Piket Rumah Ceria Pro - Alfatih & Syifa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -84,7 +84,7 @@
       </div>
     </section>
 
-    <!-- Profiles & Level -->
+    <!-- Profiles & Level (Ganti PP Langsung dari Galeri) -->
     <section class="grid grid-cols-2 gap-4">
       <!-- Alfatih -->
       <div id="card-alfatih" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg flex flex-col items-center">
@@ -105,8 +105,10 @@
           <span id="score-alfatih">0</span> Bintang
         </div>
 
-        <button type="button" onclick="bukaModalPP('Alfatih')" class="mt-3 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-1 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
-          <i class="fa-solid fa-camera text-[9px]"></i>
+        <!-- Hidden File Input untuk Galeri Alfatih -->
+        <input type="file" id="file-pp-alfatih" accept="image/*" class="hidden" onchange="uploadGaleriPP('Alfatih')">
+        <button type="button" onclick="document.getElementById('file-pp-alfatih').click()" class="mt-3 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-1.5 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+          <i class="fa-solid fa-image text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
@@ -130,8 +132,10 @@
           <span id="score-syifa">0</span> Bintang
         </div>
 
-        <button type="button" onclick="bukaModalPP('Syifa')" class="mt-3 text-[10px] bg-pink-600 hover:bg-pink-500 text-white font-bold py-1 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
-          <i class="fa-solid fa-camera text-[9px]"></i>
+        <!-- Hidden File Input untuk Galeri Syifa -->
+        <input type="file" id="file-pp-syifa" accept="image/*" class="hidden" onchange="uploadGaleriPP('Syifa')">
+        <button type="button" onclick="document.getElementById('file-pp-syifa').click()" class="mt-3 text-[10px] bg-pink-600 hover:bg-pink-500 text-white font-bold py-1.5 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+          <i class="fa-solid fa-image text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
@@ -151,12 +155,12 @@
       </div>
     </section>
 
-    <!-- Form Absen Piket (Before & After) -->
+    <!-- Form Absen Piket (1 Foto Simpel) -->
     <section id="section-absen" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-pen-to-square text-amber-500 text-sm"></i>
-          <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Form Absen Piket (Before & After)</h2>
+          <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Form Absen Piket Baru</h2>
         </div>
         <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-0.5 rounded-full font-semibold">Mode Anak</span>
       </div>
@@ -189,15 +193,9 @@
           </div>
         </div>
 
-        <div class="grid grid-cols-2 gap-3 pt-1">
-          <div>
-            <label class="block text-xs font-bold text-rose-500 mb-1">📸 Foto SEBELUM (Kotor)</label>
-            <input type="file" id="input-foto-before" accept="image/*" class="w-full text-[10px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:bg-rose-500/20 file:text-rose-500 cursor-pointer">
-          </div>
-          <div>
-            <label class="block text-xs font-bold text-emerald-500 mb-1">📸 Foto SESUDAH (Kinclong)</label>
-            <input type="file" id="input-foto-after" accept="image/*" class="w-full text-[10px] text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-xl file:border-0 file:text-[10px] file:font-bold file:bg-emerald-500/20 file:text-emerald-500 cursor-pointer">
-          </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Foto Bukti Piket Selesai</label>
+          <input type="file" id="input-foto" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2.5 file:px-4 file:rounded-2xl file:border-0 file:text-xs file:font-black file:bg-amber-500/20 file:text-amber-600 dark:file:text-amber-400 hover:file:bg-amber-500/30 transition-all cursor-pointer">
         </div>
 
         <button type="button" onclick="simpanAbsen()" class="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase tracking-wider">
@@ -220,38 +218,6 @@
     </section>
 
   </main>
-
-  <!-- Modal Ganti PP -->
-  <div id="pp-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative">
-      <button type="button" onclick="tutupModalPP()" class="absolute top-4 right-4 text-slate-400">
-        <i class="fa-solid fa-xmark text-lg"></i>
-      </button>
-      <div class="w-12 h-12 bg-indigo-500/10 text-indigo-500 rounded-2xl flex items-center justify-center mx-auto text-lg">
-        <i class="fa-solid fa-image"></i>
-      </div>
-      <div>
-        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Ganti Foto Profil <span id="nama-target-pp"></span></h3>
-        <p class="text-[11px] text-slate-500 mt-0.5">Upload Foto Galeri atau Ketik Nama Avatar Robot</p>
-      </div>
-
-      <div class="text-left bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
-        <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Upload Foto Galeri</label>
-        <input type="file" id="input-pp-file" accept="image/*" class="w-full text-[10px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-[10px] file:bg-indigo-600 file:text-white cursor-pointer">
-      </div>
-
-      <p class="text-[10px] font-bold text-slate-400">- ATAU -</p>
-
-      <div class="text-left bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
-        <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Ketik Nama Avatar Robot</label>
-        <input type="text" id="input-pp-seed" placeholder="Contoh: cool-bot, hero-99" class="w-full text-xs p-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl outline-none text-slate-900 dark:text-slate-100">
-      </div>
-
-      <button type="button" onclick="simpanPPBaru()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-2xl text-xs uppercase shadow-lg">
-        Simpan PP Baru
-      </button>
-    </div>
-  </div>
 
   <!-- Modal PIN Security & Switcher Akun Ortu (Abi / Mama) -->
   <div id="pin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
@@ -283,14 +249,13 @@
   <script>
     let currentMode = 'anak';
     let selectedParent = 'Abi';
-    let targetPPNama = '';
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v8')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v8')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v8')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v8')) || { 
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v9')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v9')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v9')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v9')) || { 
       Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
       Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
     };
@@ -362,36 +327,16 @@
       renderApp();
     }
 
-    function bukaModalPP(nama) {
-      targetPPNama = nama;
-      document.getElementById('nama-target-pp').innerText = nama;
-      document.getElementById('input-pp-file').value = '';
-      document.getElementById('input-pp-seed').value = '';
-      document.getElementById('pp-modal').classList.remove('hidden');
-    }
-
-    function tutupModalPP() { document.getElementById('pp-modal').classList.add('hidden'); }
-
-    function simpanPPBaru() {
-      const fileInput = document.getElementById('input-pp-file');
-      const seedInput = document.getElementById('input-pp-seed').value.trim();
-
-      if (fileInput.files[0]) {
+    function uploadGaleriPP(nama) {
+      const inputEl = document.getElementById(`file-pp-${nama.toLowerCase()}`);
+      if (inputEl.files && inputEl.files[0]) {
         const reader = new FileReader();
         reader.onload = function(e) {
-          customAvatars[targetPPNama] = e.target.result;
-          localStorage.setItem('piket_avatars_v8', JSON.stringify(customAvatars));
-          tutupModalPP();
+          customAvatars[nama] = e.target.result;
+          localStorage.setItem('piket_avatars_v9', JSON.stringify(customAvatars));
           renderApp();
         };
-        reader.readAsDataURL(fileInput.files[0]);
-      } else if (seedInput !== '') {
-        customAvatars[targetPPNama] = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seedInput)}`;
-        localStorage.setItem('piket_avatars_v8', JSON.stringify(customAvatars));
-        tutupModalPP();
-        renderApp();
-      } else {
-        alert('Pilih foto dari galeri ATAU ketik nama avatar dulu ya!');
+        reader.readAsDataURL(inputEl.files[0]);
       }
     }
 
@@ -401,7 +346,7 @@
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v8', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v9', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -410,43 +355,28 @@
       const tugas = document.getElementById('input-tugas').value;
       const mulai = document.getElementById('input-mulai').value;
       const selesai = document.getElementById('input-selesai').value;
-      const fotoBefore = document.getElementById('input-foto-before');
-      const fotoAfter = document.getElementById('input-foto-after');
+      const fotoInput = document.getElementById('input-foto');
 
       if (!mulai || !selesai) { alert('Isi jam mulai dan jam selesai ya!'); return; }
 
-      const readerBefore = new FileReader();
-      const readerAfter = new FileReader();
-
-      readerBefore.onload = function(eBefore) {
-        const imgBefore = eBefore.target.result;
-        if (fotoAfter.files[0]) {
-          readerAfter.onload = function(eAfter) {
-            saveItemPiket(nama, tugas, mulai, selesai, imgBefore, eAfter.target.result);
-          };
-          readerAfter.readAsDataURL(fotoAfter.files[0]);
-        } else {
-          saveItemPiket(nama, tugas, mulai, selesai, imgBefore, 'https://via.placeholder.com/300x180?text=Sesudah');
-        }
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        dataPiket.unshift({
+          id: Date.now(), nama, tugas, mulai, selesai,
+          foto: e.target.result,
+          status: 'Menunggu Verifikasi',
+          tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
+        });
+        localStorage.setItem('piket_data_v9', JSON.stringify(dataPiket));
+        renderApp();
+        alert('Absen piket berhasil dikirim!');
       };
 
-      if (fotoBefore.files[0]) {
-        readerBefore.readAsDataURL(fotoBefore.files[0]);
+      if (fotoInput.files && fotoInput.files[0]) {
+        reader.readAsDataURL(fotoInput.files[0]);
       } else {
-        readerBefore.onload({ target: { result: 'https://via.placeholder.com/300x180?text=Sebelum' } });
+        reader.onload({ target: { result: 'https://via.placeholder.com/400x220?text=Bukti+Piket+Selesai' } });
       }
-    }
-
-    function saveItemPiket(nama, tugas, mulai, selesai, fotoBefore, fotoAfter) {
-      dataPiket.unshift({
-        id: Date.now(), nama, tugas, mulai, selesai,
-        fotoBefore, fotoAfter,
-        status: 'Menunggu Verifikasi',
-        tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
-      });
-      localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
-      renderApp();
-      alert('Absen piket Before & After berhasil dikirim!');
     }
 
     function verifikasi(id, disetujui) {
@@ -459,8 +389,8 @@
         }
         return item;
       });
-      localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v8', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v9', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v9', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -474,8 +404,8 @@
     function resetDataModal() {
       if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v8', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v9', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v9', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -558,16 +488,7 @@
             <span class="text-[10px] px-2.5 py-1 rounded-full font-extrabold ${badgeStyle}">${item.status}</span>
           </div>
 
-          <div class="grid grid-cols-2 gap-2 pt-1">
-            <div>
-              <p class="text-[9px] font-bold text-rose-500 mb-0.5">Sebelum:</p>
-              <img src="${item.fotoBefore}" class="w-full h-28 object-cover rounded-xl border border-slate-200 dark:border-slate-800">
-            </div>
-            <div>
-              <p class="text-[9px] font-bold text-emerald-500 mb-0.5">Sesudah:</p>
-              <img src="${item.fotoAfter}" class="w-full h-28 object-cover rounded-xl border border-slate-200 dark:border-slate-800">
-            </div>
-          </div>
+          ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-slate-200 dark:border-slate-800">` : ''}
 
           ${currentMode === 'ortu' && item.status === 'Menunggu Verifikasi' ? `
             <div class="flex space-x-2 pt-1">
