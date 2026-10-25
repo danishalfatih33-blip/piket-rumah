@@ -156,7 +156,7 @@
       </div>
     </section>
 
-    <!-- Hall of Fame / Rekor Pemenang Bulanan (Fitur #3) -->
+    <!-- Hall of Fame / Rekor Pemenang Bulanan -->
     <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-3 shadow-xl">
       <div class="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         <i class="fa-solid fa-award text-amber-500"></i>
@@ -189,6 +189,7 @@
           <select id="input-tugas" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
             <option value="Nyapu & Ngepel">Nyapu & Ngepel (Setiap Minggu)</option>
             <option value="Bersihin Kamar Mandi">Bersihin Kamar Mandi (1x Seminggu)</option>
+            <option value="Nyapu, Ngepel & Bersihin Kamar Mandi">Nyapu, Ngepel & Bersihin Kamar Mandi (Paket Komplit ⭐⭐)</option>
           </select>
         </div>
 
@@ -201,6 +202,11 @@
             <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Kelar Jam</label>
             <input type="time" id="input-selesai" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
           </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Catatan Tambahan Saat Piket (Opsional)</label>
+          <input type="text" id="input-catatan" placeholder="Contoh: Udah dilap sekalian meja & tempat sampah dibuang..." class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs outline-none">
         </div>
 
         <div>
@@ -262,16 +268,16 @@
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v10')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v10')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v10')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v10')) || [];
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v10')) || { 
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v11')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v11')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v11')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v11')) || [];
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v11')) || { 
       Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
       Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
     };
 
-    // --- FITUR #4: Web Audio Sound Effects (Native Synthesizer - No External Files) ---
+    // Synthesizer Web Audio Sound FX
     let audioCtx = null;
     function playSnd(type) {
       try {
@@ -401,7 +407,7 @@
         reader.onload = function(e) {
           playSnd('star');
           customAvatars[nama] = e.target.result;
-          localStorage.setItem('piket_avatars_v10', JSON.stringify(customAvatars));
+          localStorage.setItem('piket_avatars_v11', JSON.stringify(customAvatars));
           renderApp();
         };
         reader.readAsDataURL(inputEl.files[0]);
@@ -415,7 +421,7 @@
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v10', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v11', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -424,6 +430,7 @@
       const tugas = document.getElementById('input-tugas').value;
       const mulai = document.getElementById('input-mulai').value;
       const selesai = document.getElementById('input-selesai').value;
+      const catatan = document.getElementById('input-catatan').value.trim();
       const fotoInput = document.getElementById('input-foto');
 
       if (!mulai || !selesai) { alert('Isi jam mulai dan jam selesai ya!'); return; }
@@ -432,12 +439,13 @@
       reader.onload = function(e) {
         playSnd('star');
         dataPiket.unshift({
-          id: Date.now(), nama, tugas, mulai, selesai,
+          id: Date.now(), nama, tugas, mulai, selesai, catatan,
           foto: e.target.result,
           status: 'Menunggu Verifikasi',
           tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
         });
-        localStorage.setItem('piket_data_v10', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
+        document.getElementById('input-catatan').value = '';
         renderApp();
         alert('Absen piket berhasil dikirim!');
       };
@@ -454,8 +462,10 @@
         if (item.id === id) {
           if (disetujui && !item.status.includes('Disetujui')) {
             playSnd('star');
-            skorBintang[item.nama] += 1;
-            item.status = `Disetujui ${selectedParent} (+1 ⭐)`;
+            // Bonus +2 Bintang untuk Paket Komplit
+            const poin = item.tugas.includes('Paket Komplit') ? 2 : 1;
+            skorBintang[item.nama] += poin;
+            item.status = `Disetujui ${selectedParent} (+${poin} ⭐)`;
           } else if (!disetujui) {
             playSnd('click');
             item.status = `Perlu Diulang (${selectedParent})`;
@@ -463,8 +473,8 @@
         }
         return item;
       });
-      localStorage.setItem('piket_data_v10', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v10', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -476,14 +486,13 @@
       }
     }
 
-    // --- FITUR #3: Arsip Hall of Fame Pemenang Bulanan ---
     function arsipkanPemenangBulanan() {
       if (skorBintang.Alfatih === 0 && skorBintang.Syifa === 0) {
         alert('Belum ada skor bintang yang bisa diarsipkan!');
         return;
       }
       
-      const bulan = new Date().toLocaleDateString('id-ID', { month: 'Long', year: 'numeric' });
+      const bulan = new Date().toLocaleDateString('id-ID', { month: 'long', year: 'numeric' });
       let pemenang = 'Seri';
       let bintangPemenang = skorBintang.Alfatih;
 
@@ -505,8 +514,8 @@
         });
 
         skorBintang = { Alfatih: 0, Syifa: 0 };
-        localStorage.setItem('piket_hof_v10', JSON.stringify(hallOfFame));
-        localStorage.setItem('piket_skor_v10', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_hof_v11', JSON.stringify(hallOfFame));
+        localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -515,8 +524,8 @@
       if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         playSnd('click');
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v10', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v10', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -619,6 +628,8 @@
             </div>
             <span class="text-[10px] px-2.5 py-1 rounded-full font-extrabold ${badgeStyle}">${item.status}</span>
           </div>
+
+          ${item.catatan ? `<div class="bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl text-[11px] text-amber-600 dark:text-amber-400"><span class="font-bold">💬 Catatan:</span> "${item.catatan}"</div>` : ''}
 
           ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-slate-200 dark:border-slate-800">` : ''}
 
