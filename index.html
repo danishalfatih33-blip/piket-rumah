@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piket Rumah Ceria Liquid Glass Ultra - Alfatih & Syifa</title>
+  <title>Piket Rumah Ceria Pro Max Ultra - Alfatih & Syifa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -345,11 +344,11 @@
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v12')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v12')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v12')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v12')) || [];
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v12')) || { 
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v13')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v13')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v13')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v13')) || [];
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v13')) || { 
       Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
       Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
     };
@@ -484,7 +483,7 @@
         reader.onload = function(e) {
           playSnd('star');
           customAvatars[nama] = e.target.result;
-          localStorage.setItem('piket_avatars_v12', JSON.stringify(customAvatars));
+          localStorage.setItem('piket_avatars_v13', JSON.stringify(customAvatars));
           renderApp();
         };
         reader.readAsDataURL(inputEl.files[0]);
@@ -498,7 +497,7 @@
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v12', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v13', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -521,7 +520,7 @@
           status: 'Menunggu Verifikasi',
           tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
         });
-        localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
         document.getElementById('input-catatan').value = '';
         renderApp();
         alert('Absen piket berhasil dikirim!');
@@ -548,8 +547,8 @@
         }
         return item;
       });
-      localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -589,8 +588,8 @@
         });
 
         skorBintang = { Alfatih: 0, Syifa: 0 };
-        localStorage.setItem('piket_hof_v12', JSON.stringify(hallOfFame));
-        localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_hof_v13', JSON.stringify(hallOfFame));
+        localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -599,8 +598,8 @@
       if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         playSnd('click');
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -723,5 +722,3 @@
   </script>
 </body>
 </html>
-
-```
