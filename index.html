@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piket Rumah Ceria</title>
+  <title>Piket Rumah Ceria Ultra - Alfatih & Syifa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -12,44 +12,57 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
     @keyframes goldGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6); }
-      50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.9); }
+      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 0 40px rgba(245, 158, 11, 0.2); }
+      50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.9), 0 0 60px rgba(245, 158, 11, 0.4); }
     }
     .best-piker-card {
       animation: goldGlow 2.5s infinite ease-in-out;
       border-color: #f59e0b !important;
     }
     @keyframes floatCrown {
-      0%, 100% { transform: translateY(0px) rotate(-3deg); }
-      50% { transform: translateY(-6px) rotate(3deg); }
+      0%, 100% { transform: translateY(0px) rotate(-4deg) scale(1); }
+      50% { transform: translateY(-7px) rotate(4deg) scale(1.08); }
     }
     .crown-float { animation: floatCrown 3s ease-in-out infinite; }
+
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .shimmer-bg {
+      background: linear-gradient(90deg, rgba(245,158,11,0.8) 0%, rgba(254,240,138,1) 50%, rgba(245,158,11,0.8) 100%);
+      background-size: 200% 100%;
+      animation: shimmer 2.5s infinite;
+    }
   </style>
 </head>
-<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen pb-16 transition-colors duration-300">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen pb-20 transition-colors duration-300">
 
-  <!-- Header -->
-  <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
+  <!-- Header Header & Switcher Mode -->
+  <header class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 transition-colors">
     <div class="max-w-md mx-auto p-4 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 to-yellow-300 flex items-center justify-center text-slate-950 shadow-lg font-black">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 font-black">
           <i class="fa-solid fa-broom text-xl"></i>
         </div>
         <div>
-          <h1 class="font-extrabold text-sm text-slate-900 dark:text-slate-100">Piket Rumah Ceria</h1>
-          <p class="text-[10px] text-emerald-500 font-bold uppercase">Online & Stabil</p>
+          <h1 class="font-extrabold text-sm text-slate-900 dark:text-slate-100 tracking-wide">Piket Rumah Ceria</h1>
+          <div class="flex items-center space-x-1.5 mt-0.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+            <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold tracking-wider uppercase">Ultra Visual Edition</span>
+          </div>
         </div>
       </div>
       
       <!-- Theme & Mode Switcher -->
       <div class="flex items-center space-x-2">
-        <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-amber-400">
+        <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-2xl bg-slate-200/80 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all">
           <i id="theme-icon" class="fa-solid fa-sun text-xs"></i>
         </button>
 
-        <div class="flex bg-slate-100 dark:bg-slate-950 p-1 rounded-2xl border border-slate-200 dark:border-slate-800 text-xs font-semibold">
-          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow">Anak</button>
-          <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-500 dark:text-slate-400 flex items-center space-x-1">
+        <div class="flex bg-slate-200/80 dark:bg-slate-950 p-1 rounded-2xl border border-slate-300 dark:border-slate-800 text-xs font-semibold shadow-inner">
+          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-md transition-all">Anak</button>
+          <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all flex items-center space-x-1">
             <i class="fa-solid fa-lock text-[10px]"></i>
             <span>Ortu</span>
           </button>
@@ -60,96 +73,107 @@
 
   <main class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- Statistik Mingguan -->
-    <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl shadow-lg">
+    <!-- Progress Ring & Target Mingguan -->
+    <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800/80 p-5 rounded-3xl shadow-xl backdrop-blur-md relative overflow-hidden transition-all">
       <div class="flex items-center justify-between mb-3">
         <div>
-          <h2 class="text-xs font-bold text-slate-500 uppercase tracking-widest">Target Piket Mingguan</h2>
+          <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Target Piket Minggu Ini</h2>
           <p class="text-lg font-black text-slate-900 dark:text-slate-100 mt-0.5" id="weekly-progress-text">0 / 4 Piket Selesai</p>
         </div>
-        <div class="w-12 h-12 rounded-full bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 font-black text-xs">
+        <div class="w-12 h-12 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-500 font-black text-xs shadow-inner">
           <span id="weekly-progress-percent">0%</span>
         </div>
       </div>
-      <div class="w-full bg-slate-100 dark:bg-slate-950 h-2.5 rounded-full overflow-hidden p-0.5 border border-slate-200 dark:border-slate-800">
-        <div id="weekly-progress-bar" class="bg-gradient-to-r from-amber-500 to-yellow-400 h-full rounded-full transition-all duration-1000 w-0"></div>
+      <div class="w-full bg-slate-200 dark:bg-slate-950 h-3 rounded-full overflow-hidden p-0.5 border border-slate-300 dark:border-slate-800">
+        <div id="weekly-progress-bar" class="shimmer-bg h-full rounded-full transition-all duration-1000 w-0"></div>
       </div>
     </section>
 
-    <!-- Profiles & Banner PP -->
+    <!-- Profiles & Banner PP Piketer Terbaik -->
     <section class="grid grid-cols-2 gap-4">
-      <div id="card-alfatih" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-md">
-        <div class="relative w-20 h-20 mx-auto mb-3">
+      <!-- Card Alfatih -->
+      <div id="card-alfatih" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative transition-all duration-300 shadow-lg backdrop-blur-md">
+        <div class="relative w-22 h-22 mx-auto mb-3">
           <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih" class="w-20 h-20 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border-2 border-indigo-500/40 p-1.5 shadow-xl">
-          <div id="banner-alfatih" class="hidden absolute -top-3 left-1/2 -translate-x-1/2 crown-float">
-            <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-1 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
-              <i class="fa-solid fa-crown text-xs"></i>
+          <!-- Floating Crown Banner -->
+          <div id="banner-alfatih" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
+            <div class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-950 text-[9px] font-black px-3 py-1 rounded-full shadow-2xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
+              <i class="fa-solid fa-crown text-amber-950 text-xs"></i>
               <span>JUARA BULAN INI</span>
             </div>
           </div>
         </div>
         <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Alfatih</h3>
-        <div class="mt-2.5 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-2xl text-amber-500 font-extrabold text-xs">
-          <i class="fa-solid fa-star"></i>
+        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Tim Piket Rumah</p>
+        <div class="mt-2.5 inline-flex items-center space-x-1.5 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-2xl text-amber-500 font-extrabold text-xs">
+          <i class="fa-solid fa-star text-amber-500"></i>
           <span id="score-alfatih">0</span> Bintang
         </div>
       </div>
 
-      <div id="card-syifa" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-md">
-        <div class="relative w-20 h-20 mx-auto mb-3">
+      <!-- Card Syifa -->
+      <div id="card-syifa" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative transition-all duration-300 shadow-lg backdrop-blur-md">
+        <div class="relative w-22 h-22 mx-auto mb-3">
           <img src="https://api.dicebear.com/7.x/bottts/svg?seed=Syifa" class="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-950/80 border-2 border-pink-500/40 p-1.5 shadow-xl">
-          <div id="banner-syifa" class="hidden absolute -top-3 left-1/2 -translate-x-1/2 crown-float">
-            <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-1 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
-              <i class="fa-solid fa-crown text-xs"></i>
+          <!-- Floating Crown Banner -->
+          <div id="banner-syifa" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
+            <div class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-950 text-[9px] font-black px-3 py-1 rounded-full shadow-2xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
+              <i class="fa-solid fa-crown text-amber-950 text-xs"></i>
               <span>JUARA BULAN INI</span>
             </div>
           </div>
         </div>
         <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Syifa</h3>
-        <div class="mt-2.5 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-2xl text-amber-500 font-extrabold text-xs">
-          <i class="fa-solid fa-star"></i>
+        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Tim Piket Rumah</p>
+        <div class="mt-2.5 inline-flex items-center space-x-1.5 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-2xl text-amber-500 font-extrabold text-xs">
+          <i class="fa-solid fa-star text-amber-500"></i>
           <span id="score-syifa">0</span> Bintang
         </div>
       </div>
     </section>
 
-    <!-- Banner Juara Bulanan -->
-    <section class="bg-amber-50 dark:bg-slate-900 border border-amber-300 dark:border-amber-500/40 rounded-3xl p-5 text-center relative shadow-xl">
+    <!-- Banner Pengumuman Juara Bulanan -->
+    <section class="bg-gradient-to-br from-amber-500/10 via-amber-400/5 to-transparent dark:from-slate-900 dark:via-amber-950/20 dark:to-slate-900 border border-amber-400/50 dark:border-amber-500/40 rounded-3xl p-5 text-center relative overflow-hidden shadow-xl backdrop-blur-md transition-colors">
       <div class="flex items-center justify-center space-x-2 mb-2">
         <i class="fa-solid fa-trophy text-amber-500 text-xl animate-bounce"></i>
-        <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm">Piket Terbaik Bulan Ini</h2>
+        <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm tracking-wide">Piket Terbaik Bulan Ini</h2>
       </div>
-      <div id="winner-container" class="space-y-2 my-2"></div>
-      <div id="ortu-winner-control" class="hidden mt-4 pt-3 border-t border-amber-200 dark:border-slate-800">
-        <button type="button" onclick="celebrateWinner()" class="w-full py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs">
-          Ulang Efek Selebrasi Kembang Api!
+
+      <div id="winner-container" class="space-y-2 my-2">
+        <!-- JS Auto Render -->
+      </div>
+
+      <div id="ortu-winner-control" class="hidden mt-4 pt-3 border-t border-amber-300/40 dark:border-slate-800">
+        <button type="button" onclick="celebrateWinner()" class="w-full py-2.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Tembakkan Kembang Api & Konfeti Meriam!</span>
         </button>
       </div>
     </section>
 
-    <!-- Form Absen Piket -->
-    <section id="section-absen" class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+    <!-- Form Absen Piket (Mode Anak) -->
+    <section id="section-absen" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl backdrop-blur-md transition-all">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-pen-to-square text-amber-500 text-sm"></i>
           <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Form Absen Piket Baru</h2>
         </div>
-        <span class="text-[10px] bg-slate-100 dark:bg-slate-800 text-slate-500 px-2.5 py-0.5 rounded-full font-semibold">Mode Anak</span>
+        <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-0.5 rounded-full font-semibold">Mode Anak</span>
       </div>
 
       <div class="space-y-3.5">
         <div>
           <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Siapa yang piket?</label>
-          <select id="input-nama" class="w-full p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
+          <select id="input-nama" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none focus:ring-2 focus:ring-amber-500">
             <option value="Alfatih">Alfatih</option>
             <option value="Syifa">Syifa</option>
           </select>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Jenis Tugas Piket</label>
-          <select id="input-tugas" class="w-full p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
-            <option value="Nyapu & Ngepel">Nyapu & Ngepel (Hari Minggu)</option>
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Jenis Tugas Piket Hari Ini</label>
+          <select id="input-tugas" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none focus:ring-2 focus:ring-amber-500">
+            <option value="Nyapu & Ngepel">Nyapu & Ngepel (Setiap Minggu)</option>
             <option value="Bersihin Kamar Mandi">Bersihin Kamar Mandi (1x Seminggu)</option>
           </select>
         </div>
@@ -157,28 +181,28 @@
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Mulai Jam</label>
-            <input type="time" id="input-mulai" class="w-full p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
+            <input type="time" id="input-mulai" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none focus:ring-2 focus:ring-amber-500">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Kelar Jam</label>
-            <input type="time" id="input-selesai" class="w-full p-3 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
+            <input type="time" id="input-selesai" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none focus:ring-2 focus:ring-amber-500">
           </div>
         </div>
 
         <div>
-          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Foto Bukti Piket Selesai</label>
-          <input type="file" id="input-foto" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2.5 file:px-4 file:rounded-2xl file:border-0 file:text-xs file:font-black file:bg-amber-500/20 file:text-amber-600 dark:file:text-amber-400 cursor-pointer">
+          <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Upload Foto Bukti Piket Selesai</label>
+          <input type="file" id="input-foto" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2.5 file:px-4 file:rounded-2xl file:border-0 file:text-xs file:font-black file:bg-amber-500/20 file:text-amber-600 dark:file:text-amber-400 hover:file:bg-amber-500/30 transition-all cursor-pointer">
         </div>
 
-        <button type="button" onclick="simpanAbsen()" class="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase tracking-wider">
+        <button type="button" onclick="simpanAbsen()" class="w-full py-3.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-wider">
           Kirim Absen Piket Sekarang
         </button>
       </div>
     </section>
 
-    <!-- Riwayat & Verifikasi -->
-    <section class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+    <!-- Riwayat Piket & Verifikasi Ortu -->
+    <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl backdrop-blur-md transition-all">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-clock-rotate-left text-amber-500 text-sm"></i>
           <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Riwayat & Verifikasi</h2>
@@ -186,15 +210,17 @@
         <button type="button" onclick="resetDataModal()" id="btn-reset-data" class="hidden text-[10px] text-rose-500 hover:underline font-bold">Reset Data</button>
       </div>
 
-      <div id="list-riwayat" class="space-y-3"></div>
+      <div id="list-riwayat" class="space-y-3">
+        <!-- Auto Render List -->
+      </div>
     </section>
 
   </main>
 
-  <!-- Modal PIN Ortu -->
+  <!-- Modal Security PIN Ortu -->
   <div id="pin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative">
-      <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400">
+      <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-2xl flex items-center justify-center mx-auto text-lg">
@@ -202,10 +228,10 @@
       </div>
       <div>
         <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Akses Orang Tua</h3>
-        <p class="text-[11px] text-slate-500 mt-0.5">PIN Default: 1234</p>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Masukkan PIN Keamanan (Default: 1234)</p>
       </div>
-      <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl text-amber-500 outline-none">
-      <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg">
+      <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl text-amber-500 outline-none focus:ring-2 focus:ring-amber-500">
+      <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg hover:bg-amber-400 transition-all">
         Masuk Mode Ortu
       </button>
     </div>
@@ -215,8 +241,8 @@
     let currentMode = 'anak';
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v4')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v4')) || { Alfatih: 0, Syifa: 0 };
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v5')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v5')) || { Alfatih: 0, Syifa: 0 };
 
     function toggleTheme() {
       const html = document.documentElement;
@@ -240,13 +266,18 @@
       document.getElementById('pin-input').focus();
     }
 
-    function closePinModal() { document.getElementById('pin-modal').classList.add('hidden'); }
+    function closePinModal() {
+      document.getElementById('pin-modal').classList.add('hidden');
+    }
 
     function verifyPin() {
-      if (document.getElementById('pin-input').value === DEFAULT_PIN) {
+      const pin = document.getElementById('pin-input').value;
+      if (pin === DEFAULT_PIN) {
         closePinModal();
         switchMode('ortu');
-      } else { alert('PIN Salah! (Default: 1234)'); }
+      } else {
+        alert('PIN Salah! Silakan coba lagi (Default PIN: 1234).');
+      }
     }
 
     function switchMode(mode) {
@@ -256,14 +287,14 @@
       const btnReset = document.getElementById('btn-reset-data');
 
       if (mode === 'anak') {
-        btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow';
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-500 dark:text-slate-400 flex items-center space-x-1';
+        btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-md transition-all';
+        btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 transition-all flex items-center space-x-1';
         document.getElementById('section-absen').classList.remove('hidden');
         document.getElementById('ortu-winner-control').classList.add('hidden');
         btnReset.classList.add('hidden');
       } else {
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow flex items-center space-x-1';
-        btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-500 dark:text-slate-400';
+        btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-md transition-all flex items-center space-x-1';
+        btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400';
         document.getElementById('section-absen').classList.add('hidden');
         document.getElementById('ortu-winner-control').classList.remove('hidden');
         btnReset.classList.remove('hidden');
@@ -278,23 +309,35 @@
       const selesai = document.getElementById('input-selesai').value;
       const fotoInput = document.getElementById('input-foto');
 
-      if (!mulai || !selesai) { alert('Isi jam mulai dan jam selesai ya!'); return; }
+      if (!mulai || !selesai) {
+        alert('Tolong isi jam mulai dan jam selesai piketnya ya!');
+        return;
+      }
 
       const reader = new FileReader();
       reader.onload = function(e) {
-        dataPiket.unshift({
-          id: Date.now(), nama, tugas, mulai, selesai,
+        const itemPiket = {
+          id: Date.now(),
+          nama: nama,
+          tugas: tugas,
+          mulai: mulai,
+          selesai: selesai,
           foto: e.target.result,
           status: 'Menunggu Verifikasi',
           tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
-        });
-        localStorage.setItem('piket_data_v4', JSON.stringify(dataPiket));
+        };
+
+        dataPiket.unshift(itemPiket);
+        saveData();
         renderApp();
-        alert('Absen piket berhasil dikirim!');
+        alert('Absen piket berhasil dikirim! Menunggu verifikasi Orang Tua.');
       };
 
-      if (fotoInput.files[0]) { reader.readAsDataURL(fotoInput.files[0]); }
-      else { reader.onload({ target: { result: 'https://via.placeholder.com/400x220?text=Bukti+Piket' } }); }
+      if (fotoInput.files[0]) {
+        reader.readAsDataURL(fotoInput.files[0]);
+      } else {
+        reader.onload({ target: { result: 'https://via.placeholder.com/400x220/0f172a/94a3b8?text=Bukti+Piket+Selesai' } });
+      }
     }
 
     function verifikasi(id, disetujui) {
@@ -303,26 +346,47 @@
           if (disetujui && !item.status.includes('Disetujui')) {
             skorBintang[item.nama] += 1;
             item.status = 'Disetujui (+1 ⭐)';
-          } else if (!disetujui) { item.status = 'Perlu Diulang'; }
+          } else if (!disetujui) {
+            item.status = 'Perlu Diulang';
+          }
         }
         return item;
       });
-      localStorage.setItem('piket_data_v4', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v4', JSON.stringify(skorBintang));
+
+      saveData();
       renderApp(true);
+    }
+
+    function saveData() {
+      localStorage.setItem('piket_data_v5', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v5', JSON.stringify(skorBintang));
     }
 
     function celebrateWinner() {
       if (typeof confetti === 'function') {
-        confetti({ particleCount: 180, spread: 100, origin: { y: 0.6 } });
+        // Tembakan Meriam Kiri
+        confetti({
+          particleCount: 100,
+          angle: 60,
+          spread: 70,
+          origin: { x: 0, y: 0.7 }
+        });
+        // Tembakan Meriam Kanan
+        confetti({
+          particleCount: 100,
+          angle: 120,
+          spread: 70,
+          origin: { x: 1, y: 0.7 }
+        });
       }
     }
 
     function resetDataModal() {
-      if (confirm('Reset seluruh data & skor?')) {
-        dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v4', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v4', JSON.stringify(skorBintang));
+      if (confirm('Apakah Orang Tua yakin ingin mereset seluruh data & skor bulan ini?')) {
+        dataPiket = [];
+        skorBintang = { Alfatih: 0, Syifa: 0 };
+        lastWinner = null;
+        saveData();
         renderApp();
       }
     }
@@ -331,9 +395,10 @@
       document.getElementById('score-alfatih').innerText = skorBintang.Alfatih;
       document.getElementById('score-syifa').innerText = skorBintang.Syifa;
 
-      const totalVerif = dataPiket.filter(i => i.status.includes('Disetujui')).length;
-      const percent = Math.min(Math.round((totalVerif / 4) * 100), 100);
-      document.getElementById('weekly-progress-text').innerText = `${totalVerif} / 4 Piket Selesai`;
+      const totalVerifikator = dataPiket.filter(i => i.status.includes('Disetujui')).length;
+      const targetWeekly = 4;
+      const percent = Math.min(Math.round((totalVerifikator / targetWeekly) * 100), 100);
+      document.getElementById('weekly-progress-text').innerText = `${totalVerifikator} / ${targetWeekly} Piket Selesai`;
       document.getElementById('weekly-progress-percent').innerText = `${percent}%`;
       document.getElementById('weekly-progress-bar').style.width = `${percent}%`;
 
@@ -349,54 +414,73 @@
       cardSyifa.classList.remove('best-piker-card');
 
       let currentWinner = null;
+
       if (skorBintang.Alfatih === 0 && skorBintang.Syifa === 0) {
-        winnerContainer.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada skor bintang bulan ini.</p>`;
+        winnerContainer.innerHTML = `<p class="text-xs text-slate-500 italic">Belum ada skor piket bulan ini. Semangat kumpulkan bintang!</p>`;
       } else if (skorBintang.Alfatih === skorBintang.Syifa) {
-        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-xs text-amber-500 font-extrabold">🤝 Seri! Alfatih & Syifa sama-sama ${skorBintang.Alfatih} Bintang!</div>`;
+        winnerContainer.innerHTML = `
+          <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-xs text-amber-600 dark:text-amber-300 font-extrabold">
+            🤝 Seri! Alfatih & Syifa sama-sama unggul dengan ${skorBintang.Alfatih} Bintang!
+          </div>`;
         bannerAlfatih.classList.remove('hidden');
         bannerSyifa.classList.remove('hidden');
       } else {
         currentWinner = skorBintang.Alfatih > skorBintang.Syifa ? 'Alfatih' : 'Syifa';
         const topScore = Math.max(skorBintang.Alfatih, skorBintang.Syifa);
-        if (currentWinner === 'Alfatih') { bannerAlfatih.classList.remove('hidden'); cardAlfatih.classList.add('best-piker-card'); }
-        else { bannerSyifa.classList.remove('hidden'); cardSyifa.classList.add('best-piker-card'); }
 
-        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3"><p class="text-xs text-slate-600 dark:text-slate-300">Piketer Terbaik: <span class="font-black text-amber-500">${currentWinner}</span></p><p class="text-sm font-black text-amber-500 mt-0.5">🏆 Unggul ${topScore} Bintang</p></div>`;
+        if (currentWinner === 'Alfatih') {
+          bannerAlfatih.classList.remove('hidden');
+          cardAlfatih.classList.add('best-piker-card');
+        } else {
+          bannerSyifa.classList.remove('hidden');
+          cardSyifa.classList.add('best-piker-card');
+        }
+
+        winnerContainer.innerHTML = `
+          <div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3">
+            <p class="text-xs text-slate-700 dark:text-slate-300">Piketer Terbaik Bulan Ini dipegang oleh <span class="font-black text-amber-600 dark:text-amber-400">${currentWinner}</span>!</p>
+            <p class="text-sm font-black text-amber-600 dark:text-amber-400 mt-0.5">🏆 Unggul ${topScore} Bintang</p>
+          </div>`;
 
         if (autoCheckWinner && currentWinner !== lastWinner) {
           lastWinner = currentWinner;
-          setTimeout(() => { celebrateWinner(); }, 300);
+          setTimeout(() => {
+            celebrateWinner();
+          }, 300);
         }
       }
 
       const listContainer = document.getElementById('list-riwayat');
       listContainer.innerHTML = '';
+
       if (dataPiket.length === 0) {
-        listContainer.innerHTML = '<p class="text-xs text-slate-400 text-center py-6">Belum ada catatan piket.</p>';
+        listContainer.innerHTML = '<p class="text-xs text-slate-400 dark:text-slate-600 text-center py-6">Belum ada catatan piket.</p>';
         return;
       }
 
       dataPiket.forEach(item => {
-        let badgeStyle = 'bg-amber-500/10 text-amber-500 border border-amber-500/20';
-        if (item.status.includes('Disetujui')) badgeStyle = 'bg-emerald-500/10 text-emerald-500 border border-emerald-500/20';
-        if (item.status === 'Perlu Diulang') badgeStyle = 'bg-rose-500/10 text-rose-500 border border-rose-500/20';
+        let badgeStyle = 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20';
+        if (item.status.includes('Disetujui')) badgeStyle = 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20';
+        if (item.status === 'Perlu Diulang') badgeStyle = 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20';
 
         const card = document.createElement('div');
-        card.className = 'border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 rounded-2xl p-3.5 space-y-2.5 shadow-sm';
+        card.className = 'border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 rounded-2xl p-3.5 space-y-2.5 shadow-sm transition-colors';
         card.innerHTML = `
           <div class="flex items-start justify-between">
             <div>
               <span class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">${item.nama}</span>
-              <p class="text-[11px] text-slate-500">${item.tugas}</p>
-              <p class="text-[10px] text-slate-400 mt-0.5">${item.tanggal} • ${item.mulai} - ${item.selesai}</p>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-medium">${item.tugas}</p>
+              <p class="text-[10px] text-slate-400 dark:text-slate-500 mt-0.5">${item.tanggal} • ${item.mulai} - ${item.selesai}</p>
             </div>
             <span class="text-[10px] px-2.5 py-1 rounded-full font-extrabold ${badgeStyle}">${item.status}</span>
           </div>
-          ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-slate-200 dark:border-slate-800">` : ''}
+
+          ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-slate-200 dark:border-slate-800 shadow-inner">` : ''}
+
           ${currentMode === 'ortu' && item.status === 'Menunggu Verifikasi' ? `
             <div class="flex space-x-2 pt-1">
-              <button type="button" onclick="verifikasi(${item.id}, true)" class="flex-1 py-2 bg-emerald-600 text-white font-black rounded-xl text-xs shadow">Setujui (+1 ⭐)</button>
-              <button type="button" onclick="verifikasi(${item.id}, false)" class="flex-1 py-2 bg-rose-600 text-white font-black rounded-xl text-xs shadow">Perlu Diulang</button>
+              <button type="button" onclick="verifikasi(${item.id}, true)" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl text-xs transition-all shadow-lg">Setujui (+1 ⭐)</button>
+              <button type="button" onclick="verifikasi(${item.id}, false)" class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white font-black rounded-xl text-xs transition-all shadow-lg">Perlu Diulang</button>
             </div>
           ` : ''}
         `;
