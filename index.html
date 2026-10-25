@@ -1,19 +1,9 @@
-Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua fitur baru sesuai permintaanmu:
-
-1. **Opsi Tugas Kombinasi:** Ditambahkan opsi baru **"Nyapu, Ngepel & Bersihin Kamar Mandi (Paket Komplit ⭐⭐)"** di pilihan jenis tugas piket.
-2. **Fitur Catatan Tambahan Anak:** Ditambahkan kolom input **"Catatan Tambahan Saat Piket"** (opsional) di form absen anak (misal: *"Kamar mandi udah disikat pakai karbol, plus sampah udah dibuang"*), yang akan langsung tampil rapi di kartu riwayat verifikasi Orang Tua!
-
----
-
-### Kode Lengkap `index.html`
-
-```html
 <!DOCTYPE html>
 <html lang="id" class="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piket Rumah Ceria Pro MAX - Alfatih & Syifa</title>
+  <title>Piket Rumah Ceria Liquid Glass Ultra - Alfatih & Syifa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -21,45 +11,122 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <style>
-    @keyframes goldGlow {
-      0%, 100% { box-shadow: 0 0 20px rgba(245, 158, 11, 0.6), 0 0 40px rgba(245, 158, 11, 0.2); }
-      50% { box-shadow: 0 0 35px rgba(245, 158, 11, 0.9), 0 0 60px rgba(245, 158, 11, 0.4); }
+    /* Continuous Liquid Glass Ambient Background Animation */
+    @keyframes liquidFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .liquid-canvas {
+      background: linear-gradient(-45deg, #090d16, #1e1b4b, #311042, #022c22, #0f172a);
+      background-size: 400% 400%;
+      animation: liquidFlow 18s ease infinite;
+    }
+    .light .liquid-canvas {
+      background: linear-gradient(-45deg, #f1f5f9, #e0e7ff, #fbcfe8, #ccfbf1, #f8fafc);
+      background-size: 400% 400%;
+      animation: liquidFlow 18s ease infinite;
+    }
+
+    /* Core Liquid Glass Specular Effect */
+    .liquid-glass {
+      background: rgba(255, 255, 255, 0.07);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+                  inset 0 1px 1px 0 rgba(255, 255, 255, 0.25);
+    }
+    .light .liquid-glass {
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.12),
+                  inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    /* Floating Liquid Blobs in Background */
+    @keyframes blobFloat {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(30px, -50px) scale(1.1); }
+      66% { transform: translate(-20px, 20px) scale(0.9); }
+    }
+    .liquid-blob-1 {
+      position: fixed;
+      top: 10%;
+      left: 5%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.25) 0%, rgba(245, 158, 11, 0) 70%);
+      filter: blur(40px);
+      animation: blobFloat 12s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .liquid-blob-2 {
+      position: fixed;
+      bottom: 15%;
+      right: 5%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(99, 102, 241, 0) 70%);
+      filter: blur(50px);
+      animation: blobFloat 15s ease-in-out infinite reverse;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Winner Golden Liquid Specular Glow */
+    @keyframes goldFluidGlow {
+      0%, 100% {
+        box-shadow: 0 0 25px rgba(245, 158, 11, 0.5), inset 0 0 15px rgba(245, 158, 11, 0.4);
+        border-color: rgba(245, 158, 11, 0.8);
+      }
+      50% {
+        box-shadow: 0 0 45px rgba(245, 158, 11, 0.9), inset 0 0 25px rgba(251, 191, 36, 0.7);
+        border-color: rgba(251, 191, 36, 1);
+      }
     }
     .best-piker-card {
-      animation: goldGlow 2.5s infinite ease-in-out;
-      border-color: #f59e0b !important;
+      animation: goldFluidGlow 2.5s infinite ease-in-out;
     }
+
     @keyframes floatCrown {
       0%, 100% { transform: translateY(0px) rotate(-4deg) scale(1); }
-      50% { transform: translateY(-7px) rotate(4deg) scale(1.08); }
+      50% { transform: translateY(-8px) rotate(4deg) scale(1.1); }
     }
     .crown-float { animation: floatCrown 3s ease-in-out infinite; }
   </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans min-h-screen pb-20 transition-colors duration-300">
+<body class="liquid-canvas text-slate-100 font-sans min-h-screen pb-20 transition-colors duration-500 relative overflow-x-hidden">
 
-  <!-- Header -->
-  <header class="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40">
+  <!-- Ambient Liquid Blobs -->
+  <div class="liquid-blob-1"></div>
+  <div class="liquid-blob-2"></div>
+
+  <!-- Header Liquid Glass Navbar -->
+  <header class="liquid-glass sticky top-0 z-40 transition-colors duration-300">
     <div class="max-w-md mx-auto p-4 flex items-center justify-between">
       <div class="flex items-center space-x-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-400 to-yellow-300 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 font-black">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 via-yellow-300 to-amber-500 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/30 font-black">
           <i class="fa-solid fa-broom text-xl"></i>
         </div>
         <div>
-          <h1 class="font-extrabold text-sm text-slate-900 dark:text-slate-100">Piket Rumah Ceria</h1>
-          <p id="header-subtitle" class="text-[10px] text-emerald-500 font-bold uppercase">Mode Anak</p>
+          <h1 class="font-extrabold text-sm text-slate-900 dark:text-slate-100 tracking-wide">Piket Rumah Ceria</h1>
+          <p id="header-subtitle" class="text-[10px] text-emerald-500 dark:text-emerald-400 font-extrabold uppercase tracking-widest">Mode Anak</p>
         </div>
       </div>
       
-      <!-- Switcher Mode & Suara -->
+      <!-- Theme & Mode Switcher -->
       <div class="flex items-center space-x-2">
-        <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-2xl bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center text-slate-700 dark:text-amber-400">
+        <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-2xl liquid-glass flex items-center justify-center text-slate-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all">
           <i id="theme-icon" class="fa-solid fa-sun text-xs"></i>
         </button>
 
-        <div class="flex bg-slate-200 dark:bg-slate-950 p-1 rounded-2xl border border-slate-300 dark:border-slate-800 text-xs font-semibold">
-          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow">Anak</button>
-          <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 flex items-center space-x-1">
+        <div class="flex liquid-glass p-1 rounded-2xl text-xs font-semibold">
+          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all">Anak</button>
+          <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all flex items-center space-x-1">
             <i class="fa-solid fa-lock text-[10px]"></i>
             <span id="label-mode-ortu">Ortu</span>
           </button>
@@ -68,155 +135,154 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
     </div>
   </header>
 
-  <main class="max-w-md mx-auto p-4 space-y-6">
+  <main class="max-w-md mx-auto p-4 space-y-6 relative z-10">
 
-    <!-- Status Kebersihan Ruangan -->
-    <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl shadow-xl backdrop-blur-md">
-      <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between">
+    <!-- Status Kebersihan Ruangan Glass Card -->
+    <section class="liquid-glass p-5 rounded-3xl shadow-2xl transition-all">
+      <h2 class="text-xs font-black text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between">
         <span>Status Kebersihan Ruangan</span>
-        <span id="room-status-info" class="text-[10px] text-emerald-500 font-bold">Semua Bersih!</span>
+        <span id="room-status-info" class="text-[10px] text-emerald-500 dark:text-emerald-400 font-extrabold">Semua Bersih!</span>
       </h2>
       <div class="grid grid-cols-2 gap-3">
-        <div id="room-kamar-mandi" class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div id="room-kamar-mandi" class="p-3.5 rounded-2xl liquid-glass flex items-center justify-between">
           <div>
-            <p class="text-xs font-bold">Kamar Mandi</p>
-            <p id="txt-km" class="text-[10px] text-emerald-500 font-semibold mt-0.5">🟢 Kinclong</p>
+            <p class="text-xs font-extrabold text-slate-900 dark:text-slate-100">Kamar Mandi</p>
+            <p id="txt-km" class="text-[10px] text-emerald-500 dark:text-emerald-400 font-bold mt-0.5">🟢 Kinclong</p>
           </div>
-          <button type="button" onclick="toggleRoomStatus('km')" class="ortu-room-btn hidden text-[10px] bg-amber-500/20 text-amber-500 px-2 py-1 rounded-lg font-bold">Ubah</button>
+          <button type="button" onclick="toggleRoomStatus('km')" class="ortu-room-btn hidden text-[10px] bg-amber-500/20 text-amber-500 border border-amber-500/30 px-2.5 py-1 rounded-xl font-black active:scale-95 transition-all">Ubah</button>
         </div>
-        <div id="room-lantai" class="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
+        <div id="room-lantai" class="p-3.5 rounded-2xl liquid-glass flex items-center justify-between">
           <div>
-            <p class="text-xs font-bold">Area Lantai</p>
-            <p id="txt-lantai" class="text-[10px] text-emerald-500 font-semibold mt-0.5">🟢 Bersih</p>
+            <p class="text-xs font-extrabold text-slate-900 dark:text-slate-100">Area Lantai</p>
+            <p id="txt-lantai" class="text-[10px] text-emerald-500 dark:text-emerald-400 font-bold mt-0.5">🟢 Bersih</p>
           </div>
-          <button type="button" onclick="toggleRoomStatus('lantai')" class="ortu-room-btn hidden text-[10px] bg-amber-500/20 text-amber-500 px-2 py-1 rounded-lg font-bold">Ubah</button>
+          <button type="button" onclick="toggleRoomStatus('lantai')" class="ortu-room-btn hidden text-[10px] bg-amber-500/20 text-amber-500 border border-amber-500/30 px-2.5 py-1 rounded-xl font-black active:scale-95 transition-all">Ubah</button>
         </div>
       </div>
     </section>
 
-    <!-- Profiles & Level -->
+    <!-- Profiles & Level Glass Cards -->
     <section class="grid grid-cols-2 gap-4">
       <!-- Alfatih -->
-      <div id="card-alfatih" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg flex flex-col items-center">
+      <div id="card-alfatih" class="liquid-glass p-4 rounded-3xl text-center relative shadow-2xl flex flex-col items-center transition-all">
         <div class="relative w-20 h-20 mb-2">
-          <img id="pp-alfatih" src="https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih" class="w-20 h-20 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border-2 border-indigo-500/40 p-1.5 shadow-xl object-cover">
-          <div id="banner-alfatih" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
-            <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
-              <i class="fa-solid fa-crown"></i><span>JUARA</span>
+          <img id="pp-alfatih" src="https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih" class="w-20 h-20 mx-auto rounded-2xl bg-indigo-500/10 border-2 border-indigo-500/40 p-1.5 shadow-2xl object-cover">
+          <div id="banner-alfatih" class="hidden absolute -top-4 left-1/2 -translate-x-1/2 crown-float">
+            <div class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-950 text-[9px] font-black px-3 py-1 rounded-full shadow-2xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
+              <i class="fa-solid fa-crown text-amber-950"></i><span>JUARA</span>
             </div>
           </div>
         </div>
 
-        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">Alfatih</h3>
-        <p id="level-alfatih" class="text-[10px] text-indigo-500 font-bold mt-0.5">🧹 Pemula Kemoceng</p>
+        <h3 class="font-black text-slate-900 dark:text-slate-100 text-xs tracking-wide">Alfatih</h3>
+        <p id="level-alfatih" class="text-[10px] text-indigo-500 dark:text-indigo-400 font-extrabold mt-0.5">🧹 Pemula Kemoceng</p>
         
-        <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-xl text-amber-500 font-extrabold text-[11px]">
+        <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-xl text-amber-500 font-black text-[11px] shadow-inner">
           <i class="fa-solid fa-star"></i>
           <span id="score-alfatih">0</span> Bintang
         </div>
 
         <input type="file" id="file-pp-alfatih" accept="image/*" class="hidden" onchange="uploadGaleriPP('Alfatih')">
-        <button type="button" onclick="document.getElementById('file-pp-alfatih').click()" class="mt-3 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-1.5 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+        <button type="button" onclick="document.getElementById('file-pp-alfatih').click()" class="mt-3 text-[10px] bg-gradient-to-r from-indigo-600 to-indigo-500 hover:brightness-110 text-white font-black py-1.5 px-3 rounded-xl shadow-lg flex items-center space-x-1 active:scale-95 transition-all">
           <i class="fa-solid fa-image text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
 
       <!-- Syifa -->
-      <div id="card-syifa" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg flex flex-col items-center">
+      <div id="card-syifa" class="liquid-glass p-4 rounded-3xl text-center relative shadow-2xl flex flex-col items-center transition-all">
         <div class="relative w-20 h-20 mb-2">
-          <img id="pp-syifa" src="https://api.dicebear.com/7.x/bottts/svg?seed=Syifa" class="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-950/80 border-2 border-pink-500/40 p-1.5 shadow-xl object-cover">
-          <div id="banner-syifa" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
-            <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
-              <i class="fa-solid fa-crown"></i><span>JUARA</span>
+          <img id="pp-syifa" src="https://api.dicebear.com/7.x/bottts/svg?seed=Syifa" class="w-20 h-20 mx-auto rounded-2xl bg-pink-500/10 border-2 border-pink-500/40 p-1.5 shadow-2xl object-cover">
+          <div id="banner-syifa" class="hidden absolute -top-4 left-1/2 -translate-x-1/2 crown-float">
+            <div class="bg-gradient-to-r from-amber-400 via-yellow-300 to-amber-500 text-slate-950 text-[9px] font-black px-3 py-1 rounded-full shadow-2xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
+              <i class="fa-solid fa-crown text-amber-950"></i><span>JUARA</span>
             </div>
           </div>
         </div>
 
-        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">Syifa</h3>
-        <p id="level-syifa" class="text-[10px] text-pink-500 font-bold mt-0.5">🧹 Pemula Kemoceng</p>
+        <h3 class="font-black text-slate-900 dark:text-slate-100 text-xs tracking-wide">Syifa</h3>
+        <p id="level-syifa" class="text-[10px] text-pink-500 dark:text-pink-400 font-extrabold mt-0.5">🧹 Pemula Kemoceng</p>
         
-        <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-xl text-amber-500 font-extrabold text-[11px]">
+        <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/15 border border-amber-500/30 px-3 py-1 rounded-xl text-amber-500 font-black text-[11px] shadow-inner">
           <i class="fa-solid fa-star"></i>
           <span id="score-syifa">0</span> Bintang
         </div>
 
         <input type="file" id="file-pp-syifa" accept="image/*" class="hidden" onchange="uploadGaleriPP('Syifa')">
-        <button type="button" onclick="document.getElementById('file-pp-syifa').click()" class="mt-3 text-[10px] bg-pink-600 hover:bg-pink-500 text-white font-bold py-1.5 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+        <button type="button" onclick="document.getElementById('file-pp-syifa').click()" class="mt-3 text-[10px] bg-gradient-to-r from-pink-600 to-pink-500 hover:brightness-110 text-white font-black py-1.5 px-3 rounded-xl shadow-lg flex items-center space-x-1 active:scale-95 transition-all">
           <i class="fa-solid fa-image text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
     </section>
 
-    <!-- Banner Pemenang Bulanan -->
-    <section class="bg-amber-50 dark:bg-slate-900 border border-amber-300 dark:border-amber-500/40 rounded-3xl p-5 text-center relative shadow-xl">
+    <!-- Banner Pemenang Bulanan Liquid Glass -->
+    <section class="liquid-glass rounded-3xl p-5 text-center relative shadow-2xl border-amber-500/30 transition-all">
       <div class="flex items-center justify-center space-x-2 mb-2">
         <i class="fa-solid fa-trophy text-amber-500 text-xl animate-bounce"></i>
-        <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm">Piket Terbaik Bulan Ini</h2>
+        <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm tracking-wide">Piket Terbaik Bulan Ini</h2>
       </div>
       <div id="winner-container" class="space-y-2 my-2"></div>
-      <div id="ortu-winner-control" class="hidden mt-4 pt-3 border-t border-amber-200 dark:border-slate-800 space-y-2">
-        <button type="button" onclick="celebrateWinner()" class="w-full py-2.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase">
+      <div id="ortu-winner-control" class="hidden mt-4 pt-3 border-t border-amber-500/20 space-y-2">
+        <button type="button" onclick="celebrateWinner()" class="w-full py-2.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase hover:brightness-110 active:scale-95 transition-all">
           Tembakkan Kembang Api & Konfeti! 🎉
         </button>
-        <button type="button" onclick="arsipkanPemenangBulanan()" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-2xl text-[11px]">
+        <button type="button" onclick="arsipkanPemenangBulanan()" class="w-full py-2.5 bg-indigo-600/80 hover:bg-indigo-600 text-white font-black rounded-2xl text-[11px] shadow-lg active:scale-95 transition-all">
           📜 Kunci & Catat Ke Hall of Fame (Reset Bulan Baru)
         </button>
       </div>
     </section>
 
-    <!-- Hall of Fame / Rekor Pemenang Bulanan -->
-    <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-3 shadow-xl">
-      <div class="flex items-center space-x-2 border-b border-slate-200 dark:border-slate-800 pb-2">
+    <!-- Hall of Fame / Rekor Pemenang Bulanan Glass Card -->
+    <section class="liquid-glass p-5 rounded-3xl space-y-3 shadow-2xl">
+      <div class="flex items-center space-x-2 border-b border-slate-500/20 pb-2">
         <i class="fa-solid fa-award text-amber-500"></i>
-        <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Hall of Fame (Rekor Pemenang)</h2>
+        <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm tracking-wide">Hall of Fame (Rekor Pemenang)</h2>
       </div>
       <div id="list-hall-of-fame" class="space-y-2"></div>
     </section>
 
-    <!-- Form Absen Piket -->
-    <section id="section-absen" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+    <!-- Form Absen Piket Glass Card -->
+    <section id="section-absen" class="liquid-glass p-5 rounded-3xl space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-pen-to-square text-amber-500 text-sm"></i>
-          <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Form Absen Piket Baru</h2>
+          <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm tracking-wide">Form Absen Piket Baru</h2>
         </div>
-        <span class="text-[10px] bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-2.5 py-0.5 rounded-full font-semibold">Mode Anak</span>
+        <span class="text-[10px] bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 px-2.5 py-0.5 rounded-full font-black">Mode Anak</span>
       </div>
 
       <div class="space-y-3.5">
         <div>
           <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Siapa yang piket?</label>
-          <select id="input-nama" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
-            <option value="Alfatih">Alfatih</option>
-            <option value="Syifa">Syifa</option>
+          <select id="input-nama" class="w-full p-3 rounded-2xl liquid-glass text-slate-900 dark:text-slate-100 text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500">
+            <option value="Alfatih" class="dark:bg-slate-900">Alfatih</option>
+            <option value="Syifa" class="dark:bg-slate-900">Syifa</option>
           </select>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Jenis Tugas Piket</label>
-          <select id="input-tugas" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
-            <option value="Nyapu & Ngepel">Nyapu & Ngepel (Setiap Minggu)</option>
-            <option value="Bersihin Kamar Mandi">Bersihin Kamar Mandi (1x Seminggu)</option>
-            <option value="Nyapu, Ngepel & Bersihin Kamar Mandi">Nyapu, Ngepel & Bersihin Kamar Mandi (Paket Komplit ⭐⭐)</option>
+          <select id="input-tugas" class="w-full p-3 rounded-2xl liquid-glass text-slate-900 dark:text-slate-100 text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500">
+            <option value="Nyapu & Ngepel" class="dark:bg-slate-900">Nyapu & Ngepel</option>
+            <option value="Nyapu, Ngepel ama Bersihin Kamar Mandi" class="dark:bg-slate-900">Nyapu, Ngepel ama Bersihin Kamar Mandi</option>
           </select>
         </div>
 
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Mulai Jam</label>
-            <input type="time" id="input-mulai" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
+            <input type="time" id="input-mulai" class="w-full p-3 rounded-2xl liquid-glass text-slate-900 dark:text-slate-100 text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500">
           </div>
           <div>
             <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Kelar Jam</label>
-            <input type="time" id="input-selesai" class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs font-semibold outline-none">
+            <input type="time" id="input-selesai" class="w-full p-3 rounded-2xl liquid-glass text-slate-900 dark:text-slate-100 text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500">
           </div>
         </div>
 
         <div>
           <label class="block text-xs font-bold text-slate-600 dark:text-slate-400 mb-1.5">Catatan Tambahan Saat Piket (Opsional)</label>
-          <input type="text" id="input-catatan" placeholder="Contoh: Udah dilap sekalian meja & tempat sampah dibuang..." class="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 text-xs outline-none">
+          <input type="text" id="input-catatan" placeholder="Contoh: Udah dilap sekalian meja & tempat sampah dibuang..." class="w-full p-3 rounded-2xl liquid-glass text-slate-900 dark:text-slate-100 text-xs font-medium outline-none focus:ring-2 focus:ring-amber-500">
         </div>
 
         <div>
@@ -224,20 +290,20 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
           <input type="file" id="input-foto" accept="image/*" class="w-full text-xs text-slate-500 dark:text-slate-400 file:mr-3 file:py-2.5 file:px-4 file:rounded-2xl file:border-0 file:text-xs file:font-black file:bg-amber-500/20 file:text-amber-600 dark:file:text-amber-400 hover:file:bg-amber-500/30 transition-all cursor-pointer">
         </div>
 
-        <button type="button" onclick="simpanAbsen()" class="w-full py-3.5 bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase tracking-wider">
+        <button type="button" onclick="simpanAbsen()" class="w-full py-3.5 bg-gradient-to-r from-amber-400 via-yellow-400 to-amber-500 text-slate-950 font-black rounded-2xl shadow-xl text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all">
           Kirim Absen Piket Sekarang
         </button>
       </div>
     </section>
 
-    <!-- Riwayat & Verifikasi Ortu -->
-    <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
-      <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
+    <!-- Riwayat & Verifikasi Ortu Glass Card -->
+    <section class="liquid-glass p-5 rounded-3xl space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-500/20">
         <div class="flex items-center space-x-2">
           <i class="fa-solid fa-clock-rotate-left text-amber-500 text-sm"></i>
-          <h2 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Riwayat & Verifikasi Ortu</h2>
+          <h2 class="font-black text-slate-900 dark:text-slate-100 text-sm tracking-wide">Riwayat & Verifikasi Ortu</h2>
         </div>
-        <button type="button" onclick="resetDataModal()" id="btn-reset-data" class="hidden text-[10px] text-rose-500 hover:underline font-bold">Reset Data</button>
+        <button type="button" onclick="resetDataModal()" id="btn-reset-data" class="hidden text-[10px] text-rose-500 hover:underline font-extrabold">Reset Data</button>
       </div>
 
       <div id="list-riwayat" class="space-y-3"></div>
@@ -245,28 +311,28 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
 
   </main>
 
-  <!-- Modal PIN Security & Switcher Akun Ortu (Abi / Mama) -->
+  <!-- Modal PIN Security Liquid Glass & Switcher Akun Ortu (Abi / Mama) -->
   <div id="pin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative">
-      <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400">
+    <div class="liquid-glass p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative border-amber-500/30">
+      <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
       <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-2xl flex items-center justify-center mx-auto text-lg">
         <i class="fa-solid fa-lock"></i>
       </div>
       <div>
-        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Verifikasi Orang Tua</h3>
-        <p class="text-[11px] text-slate-500 mt-0.5">Pilih Akun & Masukkan PIN (1234)</p>
+        <h3 class="font-black text-slate-900 dark:text-slate-100 text-sm">Verifikasi Orang Tua</h3>
+        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Pilih Akun & Masukkan PIN (1234)</p>
       </div>
 
       <!-- Switcher Akun Ortu (Abi vs Mama) -->
-      <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800">
+      <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl liquid-glass">
         <button type="button" onclick="selectParent('Abi')" id="btn-abi" class="py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow">👨 Abi</button>
-        <button type="button" onclick="selectParent('Mama')" id="btn-mama" class="py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs">👩 Mama</button>
+        <button type="button" onclick="selectParent('Mama')" id="btn-mama" class="py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs">👩 Mama</button>
       </div>
 
-      <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl text-amber-500 outline-none">
-      <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg">
+      <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 liquid-glass rounded-2xl text-amber-500 outline-none focus:ring-2 focus:ring-amber-500">
+      <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg hover:brightness-110 active:scale-95 transition-all">
         Masuk Mode Ortu
       </button>
     </div>
@@ -278,16 +344,16 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v11')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v11')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v11')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v11')) || [];
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v11')) || { 
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v12')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v12')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v12')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v12')) || [];
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v12')) || { 
       Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
       Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
     };
 
-    // Synthesizer Web Audio Sound FX
+    // Synthesizer Native Web Audio Sound FX
     let audioCtx = null;
     function playSnd(type) {
       try {
@@ -352,8 +418,8 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
     function selectParent(parent) {
       playSnd('click');
       selectedParent = parent;
-      document.getElementById('btn-abi').className = parent === 'Abi' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs';
-      document.getElementById('btn-mama').className = parent === 'Mama' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs';
+      document.getElementById('btn-abi').className = parent === 'Abi' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs';
+      document.getElementById('btn-mama').className = parent === 'Mama' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs';
     }
 
     function openPinModal() {
@@ -387,21 +453,21 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
       const roomBtns = document.querySelectorAll('.ortu-room-btn');
 
       if (mode === 'anak') {
-        btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow';
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 flex items-center space-x-1';
+        btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all';
+        btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 flex items-center space-x-1';
         labelOrtu.innerText = 'Ortu';
         headerSubtitle.innerText = 'Mode Anak';
-        headerSubtitle.className = 'text-[10px] text-emerald-500 font-bold uppercase';
+        headerSubtitle.className = 'text-[10px] text-emerald-500 dark:text-emerald-400 font-extrabold uppercase tracking-widest';
         document.getElementById('section-absen').classList.remove('hidden');
         document.getElementById('ortu-winner-control').classList.add('hidden');
         btnReset.classList.add('hidden');
         roomBtns.forEach(b => b.classList.add('hidden'));
       } else {
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow flex items-center space-x-1';
-        btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400';
+        btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center space-x-1';
+        btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300';
         labelOrtu.innerText = selectedParent;
         headerSubtitle.innerText = `Mode Orang Tua (${selectedParent})`;
-        headerSubtitle.className = 'text-[10px] text-amber-500 font-bold uppercase';
+        headerSubtitle.className = 'text-[10px] text-amber-500 font-extrabold uppercase tracking-widest';
         document.getElementById('section-absen').classList.add('hidden');
         document.getElementById('ortu-winner-control').classList.remove('hidden');
         btnReset.classList.remove('hidden');
@@ -417,7 +483,7 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         reader.onload = function(e) {
           playSnd('star');
           customAvatars[nama] = e.target.result;
-          localStorage.setItem('piket_avatars_v11', JSON.stringify(customAvatars));
+          localStorage.setItem('piket_avatars_v12', JSON.stringify(customAvatars));
           renderApp();
         };
         reader.readAsDataURL(inputEl.files[0]);
@@ -431,7 +497,7 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v11', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v12', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -454,7 +520,7 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
           status: 'Menunggu Verifikasi',
           tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
         });
-        localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
         document.getElementById('input-catatan').value = '';
         renderApp();
         alert('Absen piket berhasil dikirim!');
@@ -472,10 +538,8 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         if (item.id === id) {
           if (disetujui && !item.status.includes('Disetujui')) {
             playSnd('star');
-            // Bonus +2 Bintang untuk Paket Komplit
-            const poin = item.tugas.includes('Paket Komplit') ? 2 : 1;
-            skorBintang[item.nama] += poin;
-            item.status = `Disetujui ${selectedParent} (+${poin} ⭐)`;
+            skorBintang[item.nama] += 1;
+            item.status = `Disetujui ${selectedParent} (+1 ⭐)`;
           } else if (!disetujui) {
             playSnd('click');
             item.status = `Perlu Diulang (${selectedParent})`;
@@ -483,8 +547,8 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         }
         return item;
       });
-      localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -524,8 +588,8 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         });
 
         skorBintang = { Alfatih: 0, Syifa: 0 };
-        localStorage.setItem('piket_hof_v11', JSON.stringify(hallOfFame));
-        localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_hof_v12', JSON.stringify(hallOfFame));
+        localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -534,8 +598,8 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
       if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         playSnd('click');
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v11', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v11', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v12', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v12', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -558,9 +622,9 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
 
       // Status kebersihan
       document.getElementById('txt-km').innerText = roomStatus.km.includes('Kotor') ? '🔴 Perlu Dibersihkan' : '🟢 Kinclong';
-      document.getElementById('txt-km').className = roomStatus.km.includes('Kotor') ? 'text-[10px] text-rose-500 font-bold mt-0.5' : 'text-[10px] text-emerald-500 font-semibold mt-0.5';
+      document.getElementById('txt-km').className = roomStatus.km.includes('Kotor') ? 'text-[10px] text-rose-500 font-bold mt-0.5' : 'text-[10px] text-emerald-500 dark:text-emerald-400 font-bold mt-0.5';
       document.getElementById('txt-lantai').innerText = roomStatus.lantai.includes('Kotor') ? '🔴 Perlu Disapu' : '🟢 Bersih';
-      document.getElementById('txt-lantai').className = roomStatus.lantai.includes('Kotor') ? 'text-[10px] text-rose-500 font-bold mt-0.5' : 'text-[10px] text-emerald-500 font-semibold mt-0.5';
+      document.getElementById('txt-lantai').className = roomStatus.lantai.includes('Kotor') ? 'text-[10px] text-rose-500 font-bold mt-0.5' : 'text-[10px] text-emerald-500 dark:text-emerald-400 font-bold mt-0.5';
 
       const bannerAlfatih = document.getElementById('banner-alfatih');
       const bannerSyifa = document.getElementById('banner-syifa');
@@ -577,7 +641,7 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
       if (skorBintang.Alfatih === 0 && skorBintang.Syifa === 0) {
         winnerContainer.innerHTML = `<p class="text-xs text-slate-400 italic">Belum ada skor bintang bulan ini.</p>`;
       } else if (skorBintang.Alfatih === skorBintang.Syifa) {
-        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-xs text-amber-500 font-extrabold">🤝 Seri! Alfatih & Syifa sama-sama ${skorBintang.Alfatih} Bintang!</div>`;
+        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3 text-xs text-amber-500 font-black">🤝 Seri! Alfatih & Syifa sama-sama ${skorBintang.Alfatih} Bintang!</div>`;
         bannerAlfatih.classList.remove('hidden');
         bannerSyifa.classList.remove('hidden');
       } else {
@@ -586,7 +650,7 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         if (currentWinner === 'Alfatih') { bannerAlfatih.classList.remove('hidden'); cardAlfatih.classList.add('best-piker-card'); }
         else { bannerSyifa.classList.remove('hidden'); cardSyifa.classList.add('best-piker-card'); }
 
-        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3"><p class="text-xs text-slate-600 dark:text-slate-300">Piketer Terbaik: <span class="font-black text-amber-500">${currentWinner}</span></p><p class="text-sm font-black text-amber-500 mt-0.5">🏆 Unggul ${topScore} Bintang</p></div>`;
+        winnerContainer.innerHTML = `<div class="bg-amber-500/10 border border-amber-500/30 rounded-2xl p-3"><p class="text-xs text-slate-700 dark:text-slate-300">Piketer Terbaik: <span class="font-black text-amber-500">${currentWinner}</span></p><p class="text-sm font-black text-amber-500 mt-0.5">🏆 Unggul ${topScore} Bintang</p></div>`;
 
         if (autoCheckWinner && currentWinner !== lastWinner) {
           lastWinner = currentWinner;
@@ -602,11 +666,11 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
       } else {
         hallOfFame.forEach(item => {
           const div = document.createElement('div');
-          div.className = 'p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-between text-xs';
+          div.className = 'p-2.5 rounded-2xl liquid-glass border border-amber-500/20 flex items-center justify-between text-xs';
           div.innerHTML = `
             <div>
-              <p class="font-bold text-slate-800 dark:text-slate-200">${item.periode}</p>
-              <p class="text-[10px] text-slate-500">Dicatat oleh ${item.pencatat}</p>
+              <p class="font-black text-slate-900 dark:text-slate-100">${item.periode}</p>
+              <p class="text-[10px] text-slate-500 dark:text-slate-400">Dicatat oleh ${item.pencatat}</p>
             </div>
             <span class="font-black text-amber-500">🏆 ${item.juara} (${item.bintang} ⭐)</span>
           `;
@@ -628,25 +692,25 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
         if (item.status.includes('Perlu Diulang')) badgeStyle = 'bg-rose-500/10 text-rose-500 border border-rose-500/20';
 
         const card = document.createElement('div');
-        card.className = 'border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950/80 rounded-2xl p-3.5 space-y-2.5 shadow-sm';
+        card.className = 'liquid-glass rounded-2xl p-3.5 space-y-2.5 shadow-sm';
         card.innerHTML = `
           <div class="flex items-start justify-between">
             <div>
-              <span class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">${item.nama}</span>
-              <p class="text-[11px] text-slate-500">${item.tugas}</p>
+              <span class="font-black text-slate-900 dark:text-slate-100 text-xs">${item.nama}</span>
+              <p class="text-[11px] text-slate-500 dark:text-slate-400 font-bold">${item.tugas}</p>
               <p class="text-[10px] text-slate-400 mt-0.5">${item.tanggal} • ${item.mulai} - ${item.selesai}</p>
             </div>
-            <span class="text-[10px] px-2.5 py-1 rounded-full font-extrabold ${badgeStyle}">${item.status}</span>
+            <span class="text-[10px] px-2.5 py-1 rounded-full font-black ${badgeStyle}">${item.status}</span>
           </div>
 
-          ${item.catatan ? `<div class="bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl text-[11px] text-amber-600 dark:text-amber-400"><span class="font-bold">💬 Catatan:</span> "${item.catatan}"</div>` : ''}
+          ${item.catatan ? `<div class="bg-amber-500/10 border border-amber-500/20 p-2 rounded-xl text-[11px] text-amber-600 dark:text-amber-400 font-medium"><span class="font-black">💬 Catatan:</span> "${item.catatan}"</div>` : ''}
 
-          ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-slate-200 dark:border-slate-800">` : ''}
+          ${item.foto ? `<img src="${item.foto}" class="w-full h-40 object-cover rounded-2xl border border-white/20 shadow-inner">` : ''}
 
           ${currentMode === 'ortu' && item.status === 'Menunggu Verifikasi' ? `
             <div class="flex space-x-2 pt-1">
-              <button type="button" onclick="verifikasi(${item.id}, true)" class="flex-1 py-2 bg-emerald-600 text-white font-black rounded-xl text-xs shadow">Setujui (+1 ⭐)</button>
-              <button type="button" onclick="verifikasi(${item.id}, false)" class="flex-1 py-2 bg-rose-600 text-white font-black rounded-xl text-xs shadow">Perlu Diulang</button>
+              <button type="button" onclick="verifikasi(${item.id}, true)" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-black rounded-xl text-xs shadow-lg active:scale-95 transition-all">Setujui (+1 ⭐)</button>
+              <button type="button" onclick="verifikasi(${item.id}, false)" class="flex-1 py-2 bg-rose-600 hover:bg-rose-500 text-white font-black rounded-xl text-xs shadow-lg active:scale-95 transition-all">Perlu Diulang</button>
             </div>
           ` : ''}
         `;
@@ -658,5 +722,3 @@ Berikut adalah kode HTML lengkap `index.html` terbaru yang sudah ditambahkan dua
   </script>
 </body>
 </html>
-
-```
