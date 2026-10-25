@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Absensi Piket Rumah - Alfatih & Syifa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Fredoka', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        alfatih: {
+                            light: '#e0f2fe',
+                            DEFAULT: '#0284c7',
+                            dark: '#0369a1',
+                        },
+                        syifa: {
+                            light: '#fce7f3',
+                            DEFAULT: '#ec4899',
+                            dark: '#be185d',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #f8fafc;
+        }
+        .font-display {
+            font-family: 'Fredoka', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 9999px;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased pb-10">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-5 right-5 z-50 transform translate-x-full transition-transform duration-300 ease-in-out max-w-sm w-full bg-white rounded-2xl shadow-xl border border-slate-100 p-4 flex items-center space-x-3 pointer-events-none">
+        <div id="toast-icon" class="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg flex-shrink-0">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div>
+            <h4 id="toast-title" class="font-bold text-slate-900 text-sm">Berhasil!</h4>
+            <p id="toast-msg" class="text-xs text-slate-500">Pesan notifikasi di sini...</p>
+        </div>
+    </div>
+
+    <!-- Header Navigation Bar -->
+    <header class="bg-white border-b border-slate-200/80 sticky top-0 z-30 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- Logo & Title -->
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-amber-400 to-orange-500 flex items-center justify-center text-white shadow-md shadow-orange-500/20">
+                    <i class="fa-solid fa-broom text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-xl text-slate-900 leading-none">Piket Rumah</h1>
+                    <span class="text-xs text-slate-500 font-medium">Alfatih & Syifa</span>
+                </div>
+            </div>
+
+            <!-- Mode Switcher (Anak vs Orang Tua) -->
+            <div class="flex items-center bg-slate-100 p-1 rounded-2xl border border-slate-200/60">
+                <button id="btn-mode-anak" class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-white text-slate-900 shadow-sm">
+                    <i class="fa-solid fa-child-reaching text-amber-500 text-sm"></i>
+                    <span>Mode Anak (Piket)</span>
+                </button>
+                <button id="btn-mode-ortu" class="px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 text-slate-600 hover:text-slate-900">
+                    <i class="fa-solid fa-user-shield text-indigo-500 text-sm"></i>
+                    <span>Mode Orang Tua</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 mt-6">
+
+        <!-- Banner Jadwal & Giliran Piket -->
+        <div class="bg-gradient-to-r from-amber-500 to-orange-500 rounded-3xl p-6 text-white shadow-lg shadow-orange-500/10 mb-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="space-y-1">
+                    <div class="flex items-center space-x-2">
+                        <span id="badge-hari" class="px-3 py-1 rounded-full text-[11px] font-bold bg-white/20 backdrop-blur-md uppercase tracking-wider">
+                            <i class="fa-regular fa-calendar mr-1"></i> Hari Ini
+                        </span>
+                    </div>
+                    <h2 class="font-display font-bold text-2xl" id="header-date">--</h2>
+                    <p class="text-xs text-amber-100">
+                        • <b>Tugas Minggu:</b> Nyapu & Ngepel (Alfatih & Syifa)<br>
+                        • <b>Tugas Kamar Mandi (1x Seminggu):</b> Giliran minggu ini
+                    </p>
+                </div>
+
+                <!-- Penanda Giliran Kamar Mandi -->
+                <div class="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-white text-orange-500 flex items-center justify-center text-2xl flex-shrink-0">
+                        <i class="fa-solid fa-shower"></i>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-amber-100 font-semibold block uppercase tracking-wider">Giliran Kamar Mandi Minggu Ini</span>
+                        <div class="flex items-center space-x-2 mt-0.5">
+                            <span id="label-giliran-km" class="font-display font-bold text-lg text-white">Alfatih</span>
+                            <button id="btn-switch-giliran" class="text-[10px] bg-white/20 hover:bg-white/30 text-white px-2 py-0.5 rounded-lg font-bold transition">
+                                Ubah Giliran
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= MODE ANAK (FORM PIKET) ================= -->
+        <section id="section-mode-anak" class="space-y-6">
+
+            <!-- Card Pemilihan Anak & Status Hari Ini -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm">
+                <h2 class="font-display text-lg font-bold text-slate-900 mb-4 flex items-center space-x-2">
+                    <i class="fa-solid fa-users text-amber-500"></i>
+                    <span>Pilih Siapa yang Mau Piket?</span>
+                </h2>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Tombol Alfatih -->
+                    <button id="select-alfatih" class="btn-child-select border-2 border-alfatih text-alfatih bg-alfatih-light/50 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden">
+                        <div class="w-14 h-14 rounded-full bg-alfatih text-white font-display font-bold text-2xl flex items-center justify-center flex-shrink-0 shadow-md">
+                            A
+                        </div>
+                        <div class="mt-2 sm:mt-0 flex-1">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-display font-bold text-lg leading-tight">Alfatih</h3>
+                                <span id="stars-alfatih" class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">0 ★</span>
+                            </div>
+                            <span id="badge-status-alfatih" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-200 text-slate-700">
+                                Belum Piket
+                            </span>
+                        </div>
+                    </button>
+
+                    <!-- Tombol Syifa -->
+                    <button id="select-syifa" class="btn-child-select border-2 border-slate-200 text-slate-600 hover:border-syifa hover:bg-syifa-light/30 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden">
+                        <div class="w-14 h-14 rounded-full bg-syifa text-white font-display font-bold text-2xl flex items-center justify-center flex-shrink-0 shadow-md">
+                            S
+                        </div>
+                        <div class="mt-2 sm:mt-0 flex-1">
+                            <div class="flex items-center justify-between">
+                                <h3 class="font-display font-bold text-lg leading-tight">Syifa</h3>
+                                <span id="stars-syifa" class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">0 ★</span>
+                            </div>
+                            <span id="badge-status-syifa" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-slate-200 text-slate-700">
+                                Belum Piket
+                            </span>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Form & Timer Piket -->
+            <div id="piket-form-card" class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6">
+                
+                <!-- Status & Timer Banner -->
+                <div id="piket-status-banner" class="bg-slate-50 border border-slate-200/80 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center space-x-3 text-center sm:text-left">
+                        <div id="piket-status-icon" class="w-12 h-12 rounded-2xl bg-slate-200 text-slate-600 flex items-center justify-center text-xl flex-shrink-0">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <span class="text-xs text-slate-400 font-medium uppercase tracking-wider">Status Piket Saat Ini</span>
+                            <h3 id="piket-status-text" class="font-display font-bold text-xl text-slate-800">Belum Dimulai</h3>
+                        </div>
+                    </div>
+
+                    <!-- Live Timer / Durasi -->
+                    <div class="text-center sm:text-right bg-white px-4 py-2 rounded-xl border border-slate-100 shadow-sm w-full sm:w-auto">
+                        <span class="text-[11px] text-slate-400 font-semibold block uppercase">Durasi Piket</span>
+                        <span id="piket-timer-display" class="font-mono text-xl font-bold text-slate-800">00:00:00</span>
+                    </div>
+                </div>
+
+                <!-- Kontrol Waktu (Mulai & Selesai) -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Tombol Mulai Piket -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-play text-emerald-500"></i>
+                                <span>WAKTU MULAI</span>
+                            </span>
+                            <span id="label-time-start" class="text-sm font-bold text-slate-800 font-mono">--:--</span>
+                        </div>
+                        <button id="btn-start-piket" class="w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-sm rounded-xl transition shadow-md shadow-emerald-500/20 flex items-center justify-center space-x-2">
+                            <i class="fa-solid fa-play"></i>
+                            <span>Mulai Piket Sekarang</span>
+                        </button>
+                    </div>
+
+                    <!-- Tombol Selesai Piket -->
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-500 flex items-center space-x-1.5">
+                                <i class="fa-solid fa-flag-checkered text-rose-500"></i>
+                                <span>WAKTU SELESAI</span>
+                            </span>
+                            <span id="label-time-end" class="text-sm font-bold text-slate-800 font-mono">--:--</span>
+                        </div>
+                        <button id="btn-end-piket" disabled class="w-full py-3 bg-slate-300 text-slate-500 font-display font-bold text-sm rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed">
+                            <i class="fa-solid fa-check"></i>
+                            <span>Selesai Piket</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Checklist Tugas Piket -->
+                <div class="space-y-3">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-list-check text-amber-500"></i>
+                        <span>Pilihan Tugas Yang Dikerjakan:</span>
+                    </label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <label class="flex items-center space-x-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-amber-50/50 transition">
+                            <input type="checkbox" id="chk-nyapu" value="Menyapu Rumah" class="w-4 h-4 text-amber-500 rounded focus:ring-amber-400">
+                            <span class="text-xs font-bold text-slate-700">🧹 Menyapu Rumah (Setiap Hari Minggu)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-amber-50/50 transition">
+                            <input type="checkbox" id="chk-ngepel" value="Mengepel Lantai" class="w-4 h-4 text-amber-500 rounded focus:ring-amber-400">
+                            <span class="text-xs font-bold text-slate-700">🪣 Mengepel Lantai (Setiap Hari Minggu)</span>
+                        </label>
+                        <label class="flex items-center space-x-3 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer hover:bg-blue-50/50 transition">
+                            <input type="checkbox" id="chk-km" value="Bersihin Kamar Mandi" class="w-4 h-4 text-blue-500 rounded focus:ring-blue-400">
+                            <span class="text-xs font-bold text-slate-700">🧼 Bersihin Kamar Mandi (1x Seminggu)</span>
+                        </label>
+                    </div>
+                    <textarea id="piket-notes" rows="2" placeholder="Catatan tambahan (misal: Ruang tamu dan teras sudah bersih)..." class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-amber-400 transition"></textarea>
+                </div>
+
+                <!-- Upload Bukti Foto -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center space-x-1.5">
+                        <i class="fa-solid fa-camera text-blue-500"></i>
+                        <span>Foto Bukti Selesai Piket</span>
+                    </label>
+
+                    <div class="flex flex-col sm:flex-row gap-4 items-start">
+                        <div class="w-full sm:w-1/2">
+                            <label for="piket-photo-input" class="w-full h-40 border-2 border-dashed border-slate-200 rounded-2xl hover:border-amber-400 bg-slate-50 flex flex-col items-center justify-center cursor-pointer transition p-4 text-center">
+                                <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-400 mb-2"></i>
+                                <span class="text-xs font-bold text-slate-700">Ambil Foto / Unggah Gambar</span>
+                                <span class="text-[11px] text-slate-400 mt-1">Klik di sini untuk pilih foto</span>
+                                <input type="file" id="piket-photo-input" accept="image/*" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Preview Foto -->
+                        <div class="w-full sm:w-1/2 h-40 bg-slate-100 rounded-2xl border border-slate-200 overflow-hidden relative flex items-center justify-center">
+                            <img id="photo-preview" src="" alt="Preview Bukti Piket" class="w-full h-full object-cover hidden">
+                            <div id="photo-placeholder" class="text-slate-400 text-xs flex flex-col items-center">
+                                <i class="fa-regular fa-image text-2xl mb-1"></i>
+                                <span>Belum ada foto dipilih</span>
+                            </div>
+                            <button id="btn-remove-photo" class="hidden absolute top-2 right-2 w-8 h-8 rounded-full bg-slate-900/70 hover:bg-slate-900 text-white flex items-center justify-center text-xs">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Simpan Laporan Piket -->
+                <div class="pt-4 border-t border-slate-100">
+                    <button id="btn-save-piket" disabled class="w-full py-4 bg-slate-300 text-slate-500 font-display font-bold text-base rounded-2xl transition flex items-center justify-center space-x-2 cursor-not-allowed">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Kirim Absen Piket ke Orang Tua</span>
+                    </button>
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ================= MODE ORANG TUA (PEMANTAUAN) ================= -->
+        <section id="section-mode-ortu" class="hidden space-y-6">
+
+            <!-- Banner Ringkasan Poin -->
+            <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-6 text-white shadow-lg shadow-indigo-500/10 flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="space-y-1 text-center md:text-left">
+                    <span class="px-3 py-1 rounded-full text-[11px] font-bold bg-white/20 backdrop-blur-md uppercase tracking-wider">Dashboard Orang Tua</span>
+                    <h2 class="font-display font-bold text-2xl">Pantau Piket Alfatih & Syifa</h2>
+                    <p class="text-xs text-indigo-100">Verifikasi laporan, beri bintang apresiasi, dan cek foto bukti pekerjaan.</p>
+                </div>
+                <div class="flex items-center space-x-3 bg-white/10 backdrop-blur-md p-3 rounded-2xl">
+                    <div class="text-center px-3">
+                        <span class="block text-2xl font-bold font-display" id="stat-total-piket">0</span>
+                        <span class="text-[10px] text-indigo-200 font-semibold uppercase">Total Absen</span>
+                    </div>
+                    <div class="h-8 w-px bg-white/20"></div>
+                    <div class="text-center px-3">
+                        <span class="block text-2xl font-bold font-display text-amber-300" id="stat-total-bintang">0 ★</span>
+                        <span class="text-[10px] text-indigo-200 font-semibold uppercase">Total Apresiasi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ringkasan Status Anak -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <!-- Status Alfatih Hari Ini -->
+                <div class="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-2xl bg-alfatih text-white font-display font-bold text-xl flex items-center justify-center flex-shrink-0">
+                            A
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="font-display font-bold text-base text-slate-800">Alfatih</h3>
+                                <span id="ortu-stars-alfatih" class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">0 ★</span>
+                            </div>
+                            <span id="ortu-status-alfatih" class="inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600">
+                                Belum Piket
+                            </span>
+                        </div>
+                    </div>
+                    <div id="ortu-time-alfatih" class="text-right text-xs font-mono font-bold text-slate-400">
+                        --:--
+                    </div>
+                </div>
+
+                <!-- Status Syifa Hari Ini -->
+                <div class="bg-white rounded-3xl p-5 border border-slate-100 shadow-sm flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-12 h-12 rounded-2xl bg-syifa text-white font-display font-bold text-xl flex items-center justify-center flex-shrink-0">
+                            S
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="font-display font-bold text-base text-slate-800">Syifa</h3>
+                                <span id="ortu-stars-syifa" class="text-xs font-bold text-amber-500 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">0 ★</span>
+                            </div>
+                            <span id="ortu-status-syifa" class="inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-600">
+                                Belum Piket
+                            </span>
+                        </div>
+                    </div>
+                    <div id="ortu-time-syifa" class="text-right text-xs font-mono font-bold text-slate-400">
+                        --:--
+                    </div>
+                </div>
+            </div>
+
+            <!-- Header Filter & Riwayat -->
+            <div class="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+                    <div>
+                        <h3 class="font-display font-bold text-lg text-slate-900">Riwayat Laporan Piket</h3>
+                        <p class="text-xs text-slate-500">Piketan yang sudah dikirim oleh anak-anak</p>
+                    </div>
+
+                    <!-- Filter Log -->
+                    <div class="flex items-center space-x-2">
+                        <select id="filter-child" class="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold focus:outline-none">
+                            <option value="all">Semua Anak</option>
+                            <option value="Alfatih">Alfatih</option>
+                            <option value="Syifa">Syifa</option>
+                        </select>
+
+                        <button id="btn-clear-history" class="px-3 py-2 bg-rose-50 text-rose-600 hover:bg-rose-100 text-xs font-bold rounded-xl transition">
+                            <i class="fa-regular fa-trash-can mr-1"></i>
+                            <span>Hapus Riwayat</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Container Log Riwayat -->
+                <div id="history-list" class="space-y-4">
+                    <!-- Item riwayat dinamis -->
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Modal Apresiasi / Bintang dari Orang Tua -->
+    <div id="modal-feedback" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 border border-slate-100 shadow-2xl animate-fade-in">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="font-display font-bold text-lg text-slate-900 flex items-center space-x-2">
+                    <i class="fa-solid fa-star text-amber-400"></i>
+                    <span>Verifikasi & Apresiasi Orang Tua</span>
+                </h3>
+                <button id="btn-close-modal" class="w-8 h-8 rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center text-xs">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Stiker/Bintang Rating -->
+            <div class="space-y-2 text-center">
+                <span class="text-xs font-bold text-slate-500 uppercase">Pilih Bintang Nilai</span>
+                <div id="star-rating" class="flex justify-center space-x-2 text-3xl text-slate-300">
+                    <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" data-rating="1"></i>
+                    <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" data-rating="2"></i>
+                    <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" data-rating="3"></i>
+                    <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" data-rating="4"></i>
+                    <i class="fa-solid fa-star cursor-pointer hover:text-amber-400 transition" data-rating="5"></i>
+                </div>
+            </div>
+
+            <!-- Stiker Apresiasi -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700 uppercase">Pilih Stiker Apresiasi</label>
+                <div class="grid grid-cols-4 gap-2 text-center" id="sticker-options">
+                    <button type="button" data-sticker="🌟 Hebat!" class="btn-sticker p-2 border border-slate-200 rounded-xl text-xs font-bold hover:border-amber-400">🌟 Hebat!</button>
+                    <button type="button" data-sticker="🧹 Bersih Rapi" class="btn-sticker p-2 border border-slate-200 rounded-xl text-xs font-bold hover:border-amber-400">🧹 Bersih Rapi</button>
+                    <button type="button" data-sticker="👍 Mantap!" class="btn-sticker p-2 border border-slate-200 rounded-xl text-xs font-bold hover:border-amber-400">👍 Mantap!</button>
+                    <button type="button" data-sticker="❤️ Kebanggaan" class="btn-sticker p-2 border border-slate-200 rounded-xl text-xs font-bold hover:border-amber-400">❤️ Kebanggaan</button>
+                </div>
+            </div>
+
+            <!-- Pesan Pujian -->
+            <div class="space-y-2">
+                <label class="block text-xs font-bold text-slate-700 uppercase">Pujian / Catatan Orang Tua</label>
+                <textarea id="feedback-text" rows="3" placeholder="Contoh: Kamar mandi dan rumah bersih banget hari ini, keren!" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-400 transition"></textarea>
+            </div>
+
+            <button id="btn-submit-feedback" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-display font-bold text-sm rounded-xl transition shadow-md shadow-emerald-600/20 flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Setujui & Simpan Apresiasi</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Logika Aplikasi -->
+    <script>
+        // --- DATA & STATE MANAGEMENT ---
+        const AppState = {
+            currentMode: 'anak',
+            selectedChild: 'Alfatih',
+            giliranKamarMandi: localStorage.getItem('piket_giliran_km') || 'Alfatih',
+            activePiket: JSON.parse(localStorage.getItem('piket_active_state_v2')) || {
+                Alfatih: { status: 'idle', startTime: null, endTime: null, photo: null, tasks: [], notes: '' },
+                Syifa: { status: 'idle', startTime: null, endTime: null, photo: null, tasks: [], notes: '' }
+            },
+            history: JSON.parse(localStorage.getItem('piket_history_log_v2')) || [],
+            timerInterval: null,
+            selectedRating: 5,
+            selectedSticker: '🌟 Hebat!',
+            targetLogId: null
+        };
+
+        function getTodayDateString() {
+            const today = new Date();
+            return today.toLocaleDateString('id-ID', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+        }
+
+        function isSunday() {
+            return new Date().getDay() === 0;
+        }
+
+        function saveState() {
+            localStorage.setItem('piket_active_state_v2', JSON.stringify(AppState.activePiket));
+            localStorage.setItem('piket_history_log_v2', JSON.stringify(AppState.history));
+            localStorage.setItem('piket_giliran_km', AppState.giliranKamarMandi);
+            updateUI();
+        }
+
+        function showToast(title, msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastTitle = document.getElementById('toast-title');
+            const toastMsg = document.getElementById('toast-msg');
+            const toastIcon = document.getElementById('toast-icon');
+
+            toastTitle.textContent = title;
+            toastMsg.textContent = msg;
+
+            if (type === 'success') {
+                toastIcon.className = "w-10 h-10 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center text-lg flex-shrink-0";
+                toastIcon.innerHTML = `<i class="fa-solid fa-circle-check"></i>`;
+            } else {
+                toastIcon.className = "w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg flex-shrink-0";
+                toastIcon.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+            }
+
+            toast.classList.remove('translate-x-full');
+            setTimeout(() => {
+                toast.classList.add('translate-x-full');
+            }, 3000);
+        }
+
+        // --- NAVIGATION & SWITCHER ---
+        function initNavigation() {
+            const btnAnak = document.getElementById('btn-mode-anak');
+            const btnOrtu = document.getElementById('btn-mode-ortu');
+            const secAnak = document.getElementById('section-mode-anak');
+            const secOrtu = document.getElementById('section-mode-ortu');
+
+            btnAnak.addEventListener('click', () => {
+                AppState.currentMode = 'anak';
+                btnAnak.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-white text-slate-900 shadow-sm";
+                btnOrtu.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 text-slate-600 hover:text-slate-900";
+                secAnak.classList.remove('hidden');
+                secOrtu.classList.add('hidden');
+                updateUI();
+            });
+
+            btnOrtu.addEventListener('click', () => {
+                AppState.currentMode = 'ortu';
+                btnOrtu.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 bg-white text-slate-900 shadow-sm";
+                btnAnak.className = "px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 text-slate-600 hover:text-slate-900";
+                secOrtu.classList.remove('hidden');
+                secAnak.classList.add('hidden');
+                updateUI();
+            });
+
+            // Selection Child
+            const btnAlfatih = document.getElementById('select-alfatih');
+            const btnSyifa = document.getElementById('select-syifa');
+
+            btnAlfatih.addEventListener('click', () => {
+                AppState.selectedChild = 'Alfatih';
+                btnAlfatih.className = "btn-child-select border-2 border-alfatih text-alfatih bg-alfatih-light/50 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden";
+                btnSyifa.className = "btn-child-select border-2 border-slate-200 text-slate-600 hover:border-syifa hover:bg-syifa-light/30 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden";
+                updateChildFormState();
+            });
+
+            btnSyifa.addEventListener('click', () => {
+                AppState.selectedChild = 'Syifa';
+                btnSyifa.className = "btn-child-select border-2 border-syifa text-syifa bg-syifa-light/50 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden";
+                btnAlfatih.className = "btn-child-select border-2 border-slate-200 text-slate-600 hover:border-alfatih hover:bg-alfatih-light/30 p-4 rounded-2xl transition flex flex-col sm:flex-row items-center sm:space-x-4 text-center sm:text-left relative overflow-hidden";
+                updateChildFormState();
+            });
+
+            // Switch Giliran Kamar Mandi
+            document.getElementById('btn-switch-giliran').addEventListener('click', () => {
+                AppState.giliranKamarMandi = AppState.giliranKamarMandi === 'Alfatih' ? 'Syifa' : 'Alfatih';
+                saveState();
+                showToast('Giliran Diubah', `Giliran bersihin kamar mandi minggu ini: ${AppState.giliranKamarMandi}`);
+            });
+        }
+
+        // --- MANAJEMEN WAKTU & TIMER ---
+        function formatTime(timestamp) {
+            if (!timestamp) return '--:--';
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+        }
+
+        function calculateDuration(start, end) {
+            if (!start || !end) return '00:00:00';
+            const diffMs = new Date(end) - new Date(start);
+            const seconds = Math.floor((diffMs / 1000) % 60);
+            const minutes = Math.floor((diffMs / (1000 * 60)) % 60);
+            const hours = Math.floor((diffMs / (1000 * 60 * 60)) % 24);
+            return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            clearInterval(AppState.timerInterval);
+            AppState.timerInterval = setInterval(() => {
+                const childData = AppState.activePiket[AppState.selectedChild];
+                if (childData.status === 'running' && childData.startTime) {
+                    const durationStr = calculateDuration(childData.startTime, new Date().toISOString());
+                    document.getElementById('piket-timer-display').textContent = durationStr;
+                }
+            }, 1000);
+        }
+
+        // --- MODE ANAK LOGIKA ---
+        function initAnakLogic() {
+            const btnStart = document.getElementById('btn-start-piket');
+            const btnEnd = document.getElementById('btn-end-piket');
+            const btnSave = document.getElementById('btn-save-piket');
+            const notesInput = document.getElementById('piket-notes');
+            const photoInput = document.getElementById('piket-photo-input');
+            const btnRemovePhoto = document.getElementById('btn-remove-photo');
+
+            notesInput.addEventListener('input', () => {
+                AppState.activePiket[AppState.selectedChild].notes = notesInput.value;
+                saveState();
+            });
+
+            btnStart.addEventListener('click', () => {
+                const childData = AppState.activePiket[AppState.selectedChild];
+                childData.status = 'running';
+                childData.startTime = new Date().toISOString();
+                childData.endTime = null;
+                saveState();
+                showToast('Piket Dimulai!', `Semangat piketnya ya ${AppState.selectedChild}!`);
+            });
+
+            btnEnd.addEventListener('click', () => {
+                const childData = AppState.activePiket[AppState.selectedChild];
+                childData.status = 'finished';
+                childData.endTime = new Date().toISOString();
+                saveState();
+                showToast('Piket Selesai!', 'Lengkapi checklist tugas dan foto bukti piketmu.');
+            });
+
+            photoInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        const childData = AppState.activePiket[AppState.selectedChild];
+                        childData.photo = evt.target.result;
+                        saveState();
+                        showToast('Foto Berhasil Diunggah', 'Bukti piket tersimpan.');
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+
+            btnRemovePhoto.addEventListener('click', () => {
+                const childData = AppState.activePiket[AppState.selectedChild];
+                childData.photo = null;
+                photoInput.value = '';
+                saveState();
+            });
+
+            btnSave.addEventListener('click', () => {
+                const childData = AppState.activePiket[AppState.selectedChild];
+
+                if (!childData.startTime || !childData.endTime) {
+                    showToast('Data Belum Lengkap', 'Pastikan waktu mulai dan selesai sudah tercatat.', 'warning');
+                    return;
+                }
+
+                // Ambil Checklist Tugas
+                const selectedTasks = [];
+                if (document.getElementById('chk-nyapu').checked) selectedTasks.push('Menyapu Rumah');
+                if (document.getElementById('chk-ngepel').checked) selectedTasks.push('Mengepel Lantai');
+                if (document.getElementById('chk-km').checked) selectedTasks.push('Bersihin Kamar Mandi');
+
+                const newLog = {
+                    id: Date.now(),
+                    childName: AppState.selectedChild,
+                    date: getTodayDateString(),
+                    startTime: childData.startTime,
+                    endTime: childData.endTime,
+                    duration: calculateDuration(childData.startTime, childData.endTime),
+                    tasks: selectedTasks.length > 0 ? selectedTasks : ['Piket Umum'],
+                    notes: childData.notes || 'Piket selesai dengan rapi.',
+                    photo: childData.photo || null,
+                    verified: false,
+                    rating: 0,
+                    sticker: '',
+                    feedback: ''
+                };
+
+                AppState.history.unshift(newLog);
+
+                // Reset Status Anak
+                childData.status = 'idle';
+                childData.startTime = null;
+                childData.endTime = null;
+                childData.photo = null;
+                childData.tasks = [];
+                childData.notes = '';
+
+                saveState();
+                showToast('Absen Terkirim!', `Laporan piket ${AppState.selectedChild} telah berhasil dikirim ke Orang Tua.`);
+            });
+        }
+
+        function updateChildFormState() {
+            const childData = AppState.activePiket[AppState.selectedChild];
+            const btnStart = document.getElementById('btn-start-piket');
+            const btnEnd = document.getElementById('btn-end-piket');
+            const btnSave = document.getElementById('btn-save-piket');
+            const labelStart = document.getElementById('label-time-start');
+            const labelEnd = document.getElementById('label-time-end');
+            const statusText = document.getElementById('piket-status-text');
+            const statusIcon = document.getElementById('piket-status-icon');
+            const timerDisplay = document.getElementById('piket-timer-display');
+            const notesInput = document.getElementById('piket-notes');
+            const photoPreview = document.getElementById('photo-preview');
+            const photoPlaceholder = document.getElementById('photo-placeholder');
+            const btnRemovePhoto = document.getElementById('btn-remove-photo');
+
+            labelStart.textContent = formatTime(childData.startTime);
+            labelEnd.textContent = formatTime(childData.endTime);
+            notesInput.value = childData.notes || '';
+
+            // Update Auto Checklist Tugas Berdasarkan Hari & Giliran
+            const chkNyapu = document.getElementById('chk-nyapu');
+            const chkNgepel = document.getElementById('chk-ngepel');
+            const chkKm = document.getElementById('chk-km');
+
+            if (isSunday()) {
+                chkNyapu.checked = true;
+                chkNgepel.checked = true;
+            } else {
+                chkNyapu.checked = false;
+                chkNgepel.checked = false;
+            }
+
+            chkKm.checked = (AppState.giliranKamarMandi === AppState.selectedChild);
+
+            // Update Foto Preview
+            if (childData.photo) {
+                photoPreview.src = childData.photo;
+                photoPreview.classList.remove('hidden');
+                photoPlaceholder.classList.add('hidden');
+                btnRemovePhoto.classList.remove('hidden');
+            } else {
+                photoPreview.src = '';
+                photoPreview.classList.add('hidden');
+                photoPlaceholder.classList.remove('hidden');
+                btnRemovePhoto.classList.add('hidden');
+            }
+
+            if (childData.status === 'idle') {
+                statusText.textContent = 'Belum Dimulai';
+                statusText.className = 'font-display font-bold text-xl text-slate-800';
+                statusIcon.className = 'w-12 h-12 rounded-2xl bg-slate-200 text-slate-600 flex items-center justify-center text-xl flex-shrink-0';
+                timerDisplay.textContent = '00:00:00';
+
+                btnStart.disabled = false;
+                btnStart.className = "w-full py-3 bg-emerald-500 hover:bg-emerald-600 text-white font-display font-bold text-sm rounded-xl transition shadow-md shadow-emerald-500/20 flex items-center justify-center space-x-2";
+
+                btnEnd.disabled = true;
+                btnEnd.className = "w-full py-3 bg-slate-200 text-slate-400 font-display font-bold text-sm rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                btnSave.disabled = true;
+                btnSave.className = "w-full py-4 bg-slate-200 text-slate-400 font-display font-bold text-base rounded-2xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                clearInterval(AppState.timerInterval);
+
+            } else if (childData.status === 'running') {
+                statusText.textContent = 'Sedang Piket Berlangsung';
+                statusText.className = 'font-display font-bold text-xl text-amber-600';
+                statusIcon.className = 'w-12 h-12 rounded-2xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl flex-shrink-0';
+
+                btnStart.disabled = true;
+                btnStart.className = "w-full py-3 bg-slate-200 text-slate-400 font-display font-bold text-sm rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                btnEnd.disabled = false;
+                btnEnd.className = "w-full py-3 bg-rose-500 hover:bg-rose-600 text-white font-display font-bold text-sm rounded-xl transition shadow-md shadow-rose-500/20 flex items-center justify-center space-x-2";
+
+                btnSave.disabled = true;
+                btnSave.className = "w-full py-4 bg-slate-200 text-slate-400 font-display font-bold text-base rounded-2xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                startTimer();
+
+            } else if (childData.status === 'finished') {
+                statusText.textContent = 'Piket Selesai!';
+                statusText.className = 'font-display font-bold text-xl text-blue-600';
+                statusIcon.className = 'w-12 h-12 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center text-xl flex-shrink-0';
+                timerDisplay.textContent = calculateDuration(childData.startTime, childData.endTime);
+
+                btnStart.disabled = true;
+                btnStart.className = "w-full py-3 bg-slate-200 text-slate-400 font-display font-bold text-sm rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                btnEnd.disabled = true;
+                btnEnd.className = "w-full py-3 bg-slate-200 text-slate-400 font-display font-bold text-sm rounded-xl transition flex items-center justify-center space-x-2 cursor-not-allowed";
+
+                btnSave.disabled = false;
+                btnSave.className = "w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-display font-bold text-base rounded-2xl transition shadow-lg shadow-orange-500/20 flex items-center justify-center space-x-2 cursor-pointer";
+
+                clearInterval(AppState.timerInterval);
+            }
+        }
+
+        // --- MODE ORANG TUA LOGIKA ---
+        function initOrtuLogic() {
+            const filterChild = document.getElementById('filter-child');
+            const btnClearHistory = document.getElementById('btn-clear-history');
+
+            filterChild.addEventListener('change', renderHistory);
+
+            btnClearHistory.addEventListener('click', () => {
+                if (confirm('Apakah Orang Tua yakin ingin menghapus seluruh riwayat piket?')) {
+                    AppState.history = [];
+                    saveState();
+                    showToast('Riwayat Dihapus', 'Seluruh catatan riwayat telah dibersihkan.');
+                }
+            });
+
+            // Star rating click listener
+            const stars = document.querySelectorAll('#star-rating i');
+            stars.forEach(star => {
+                star.addEventListener('click', () => {
+                    AppState.selectedRating = parseInt(star.dataset.rating);
+                    updateStarUI(AppState.selectedRating);
+                });
+            });
+
+            // Sticker click listener
+            document.querySelectorAll('#sticker-options .btn-sticker').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('#sticker-options .btn-sticker').forEach(b => b.classList.remove('border-amber-500', 'bg-amber-50'));
+                    btn.classList.add('border-amber-500', 'bg-amber-50');
+                    AppState.selectedSticker = btn.dataset.sticker;
+                });
+            });
+
+            document.getElementById('btn-close-modal').addEventListener('click', closeModal);
+            document.getElementById('btn-submit-feedback').addEventListener('click', submitFeedback);
+        }
+
+        function updateStarUI(rating) {
+            const stars = document.querySelectorAll('#star-rating i');
+            stars.forEach((star, idx) => {
+                if (idx < rating) {
+                    star.className = "fa-solid fa-star text-amber-400 cursor-pointer transition";
+                } else {
+                    star.className = "fa-solid fa-star text-slate-200 cursor-pointer transition";
+                }
+            });
+        }
+
+        function openModal(logId) {
+            AppState.targetLogId = logId;
+            const log = AppState.history.find(l => l.id === logId);
+            if (log) {
+                AppState.selectedRating = log.rating || 5;
+                AppState.selectedSticker = log.sticker || '🌟 Hebat!';
+                document.getElementById('feedback-text').value = log.feedback || '';
+                updateStarUI(AppState.selectedRating);
+                document.getElementById('modal-feedback').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('modal-feedback').classList.add('hidden');
+        }
+
+        function submitFeedback() {
+            const log = AppState.history.find(l => l.id === AppState.targetLogId);
+            if (log) {
+                log.verified = true;
+                log.rating = AppState.selectedRating;
+                log.sticker = AppState.selectedSticker;
+                log.feedback = document.getElementById('feedback-text').value.trim();
+                saveState();
+                closeModal();
+                showToast('Laporan Disetujui!', `Bintang dan apresiasi untuk ${log.childName} berhasil disimpan.`);
+            }
+        }
+
+        function renderHistory() {
+            const historyList = document.getElementById('history-list');
+            const filterValue = document.getElementById('filter-child').value;
+
+            const filteredLog = AppState.history.filter(log => {
+                if (filterValue === 'all') return true;
+                return log.childName === filterValue;
+            });
+
+            historyList.innerHTML = '';
+
+            if (filteredLog.length === 0) {
+                historyList.innerHTML = `
+                    <div class="text-center py-10 text-slate-400 space-y-2">
+                        <i class="fa-regular fa-folder-open text-4xl mb-2"></i>
+                        <p class="text-sm font-medium">Belum ada riwayat piket yang dikirim.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filteredLog.forEach(log => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-50 border border-slate-200/80 rounded-2xl p-5 space-y-4 hover:border-slate-300 transition";
+
+                const isAlfatih = log.childName === 'Alfatih';
+                const colorBadge = isAlfatih ? 'bg-alfatih text-white' : 'bg-syifa text-white';
+
+                let starsHtml = '';
+                for (let i = 1; i <= 5; i++) {
+                    if (i <= log.rating) {
+                        starsHtml += `<i class="fa-solid fa-star text-amber-400 text-xs"></i>`;
+                    } else {
+                        starsHtml += `<i class="fa-solid fa-star text-slate-200 text-xs"></i>`;
+                    }
+                }
+
+                const tasksBadgeHtml = (log.tasks || []).map(t => 
+                    `<span class="px-2 py-0.5 rounded-lg bg-amber-100 text-amber-800 text-[10px] font-bold mr-1">✓ ${escapeHtml(t)}</span>`
+                ).join('');
+
+                card.innerHTML = `
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200/60 pb-3">
+                        <div class="flex items-center space-x-3">
+                            <span class="w-10 h-10 rounded-xl ${colorBadge} font-display font-bold text-lg flex items-center justify-center flex-shrink-0">
+                                ${log.childName.charAt(0)}
+                            </span>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h4 class="font-display font-bold text-base text-slate-900">${log.childName}</h4>
+                                    ${log.verified ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700"><i class="fa-solid fa-circle-check"></i> Disetujui</span>' : '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700"><i class="fa-solid fa-hourglass-half"></i> Menunggu Verifikasi</span>'}
+                                </div>
+                                <span class="text-xs text-slate-400">${log.date}</span>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-2 text-xs font-mono font-bold text-slate-600 bg-white px-3 py-1.5 rounded-xl border border-slate-100">
+                            <i class="fa-regular fa-clock text-amber-500"></i>
+                            <span>${formatTime(log.startTime)} - ${formatTime(log.endTime)} (${log.duration})</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <!-- Detail Tugas & Notes -->
+                        <div class="md:col-span-2 space-y-3">
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Tugas Yang Dikerjakan</span>
+                                <div class="flex flex-wrap gap-1">${tasksBadgeHtml}</div>
+                            </div>
+
+                            <div>
+                                <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Catatan Anak</span>
+                                <p class="text-sm text-slate-700 bg-white p-3 rounded-xl border border-slate-100">${escapeHtml(log.notes)}</p>
+                            </div>
+
+                            <!-- Feedback Orang Tua -->
+                            <div class="bg-indigo-50/60 border border-indigo-100 p-3 rounded-xl space-y-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-[11px] font-bold text-indigo-900 uppercase flex items-center space-x-1">
+                                        <i class="fa-solid fa-award text-amber-500"></i>
+                                        <span>Apresiasi Orang Tua ${log.sticker ? `(${log.sticker})` : ''}</span>
+                                    </span>
+                                    <div class="flex space-x-1">${starsHtml}</div>
+                                </div>
+                                <p class="text-xs text-indigo-900 italic">${log.feedback ? `"${escapeHtml(log.feedback)}"` : 'Belum ada pujian/masukan.'}</p>
+                                <button onclick="openModal(${log.id})" class="mt-2 text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center space-x-1">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    <span>${log.verified ? 'Ubah Verifikasi / Bintang' : 'Verifikasi & Beri Bintang'}</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Foto Bukti -->
+                        <div class="md:col-span-1">
+                            <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">Bukti Foto Piket</span>
+                            ${log.photo ? `
+                                <img src="${log.photo}" alt="Bukti Piket" class="w-full h-36 object-cover rounded-xl border border-slate-200 shadow-sm">
+                            ` : `
+                                <div class="w-full h-36 bg-slate-200/60 rounded-xl flex items-center justify-center text-slate-400 text-xs font-medium">
+                                    Tidak Ada Foto
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                `;
+
+                historyList.appendChild(card);
+            });
+        }
+
+        // --- UPDATE TOTAL UI & POIN BINTANG ---
+        function updateUI() {
+            // Header Date
+            document.getElementById('header-date').textContent = getTodayDateString();
+            document.getElementById('label-giliran-km').textContent = AppState.giliranKamarMandi;
+
+            // Hitung Total Bintang Alfatih & Syifa
+            const totalStarsAlfatih = AppState.history
+                .filter(l => l.childName === 'Alfatih' && l.verified)
+                .reduce((sum, l) => sum + (l.rating || 0), 0);
+
+            const totalStarsSyifa = AppState.history
+                .filter(l => l.childName === 'Syifa' && l.verified)
+                .reduce((sum, l) => sum + (l.rating || 0), 0);
+
+            document.getElementById('stars-alfatih').textContent = `${totalStarsAlfatih} ★`;
+            document.getElementById('stars-syifa').textContent = `${totalStarsSyifa} ★`;
+            document.getElementById('ortu-stars-alfatih').textContent = `${totalStarsAlfatih} ★`;
+            document.getElementById('ortu-stars-syifa').textContent = `${totalStarsSyifa} ★`;
+
+            // Badges Status Anak
+            const badgeAlfatih = document.getElementById('badge-status-alfatih');
+            const badgeSyifa = document.getElementById('badge-status-syifa');
+            const ortuStatusAlfatih = document.getElementById('ortu-status-alfatih');
+            const ortuStatusSyifa = document.getElementById('ortu-status-syifa');
+
+            const statusClassMap = {
+                idle: 'bg-slate-200 text-slate-700',
+                running: 'bg-amber-100 text-amber-800',
+                finished: 'bg-emerald-100 text-emerald-800'
+            };
+
+            const statusTextMap = {
+                idle: 'Belum Piket',
+                running: 'Sedang Piket',
+                finished: 'Selesai Piket'
+            };
+
+            badgeAlfatih.className = `inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${statusClassMap[AppState.activePiket.Alfatih.status]}`;
+            badgeAlfatih.textContent = statusTextMap[AppState.activePiket.Alfatih.status];
+
+            badgeSyifa.className = `inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${statusClassMap[AppState.activePiket.Syifa.status]}`;
+            badgeSyifa.textContent = statusTextMap[AppState.activePiket.Syifa.status];
+
+            ortuStatusAlfatih.className = `inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${statusClassMap[AppState.activePiket.Alfatih.status]}`;
+            ortuStatusAlfatih.textContent = statusTextMap[AppState.activePiket.Alfatih.status];
+
+            ortuStatusSyifa.className = `inline-block mt-0.5 px-2.5 py-0.5 rounded-full text-xs font-bold ${statusClassMap[AppState.activePiket.Syifa.status]}`;
+            ortuStatusSyifa.textContent = statusTextMap[AppState.activePiket.Syifa.status];
+
+            document.getElementById('ortu-time-alfatih').textContent = AppState.activePiket.Alfatih.startTime ? formatTime(AppState.activePiket.Alfatih.startTime) : '--:--';
+            document.getElementById('ortu-time-syifa').textContent = AppState.activePiket.Syifa.startTime ? formatTime(AppState.activePiket.Syifa.startTime) : '--:--';
+
+            // Stats Ortu Banner
+            document.getElementById('stat-total-piket').textContent = AppState.history.length;
+            const grandTotalStars = totalStarsAlfatih + totalStarsSyifa;
+            document.getElementById('stat-total-bintang').textContent = `${grandTotalStars} ★`;
+
+            updateChildFormState();
+            renderHistory();
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>"']/g, function(m) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[m];
+            });
+        }
+
+        window.openModal = openModal;
+
+        window.onload = function() {
+            initNavigation();
+            initAnakLogic();
+            initOrtuLogic();
+            updateUI();
+        };
+    </script>
+</body>
+</html>
+```
+
+### Fitur Baru yang Ditambahkan:
+1. **Penjelas Jadwal Harian & Mingguan:**
+   - **Tugas Hari Minggu (Nyapu & Ngepel):** Otomatis mendeteksi hari Minggu dan menandai checklist tugas.
+   - **Tugas Kamar Mandi (1x Seminggu):** Penanda giliran mingguan (misal: Alfatih minggu ini, Syifa minggu depan) lengkap dengan tombol **"Ubah Giliran"** yang bisa diklik.
+2. **Penilaian Poin Bintang & Stiker:**
+   - Menyimpan akumulasi Poin Bintang untuk Alfatih dan Syifa secara terpisah.
+   - Pilihan stiker pujian cepat dari Orang Tua (*"🌟 Hebat!"*, *"🧹 Bersih Rapi"*, *"👍 Mantap!"*, *"❤️ Kebanggaan"*).
+3. **Sistem Verifikasi / Persetujuan Orang Tua:**
+   - Status laporan sebelum disetujui bertuliskan `Menunggu Verifikasi`.
+   - Setelah Orang Tua memberikan pujian/bintang, status berubah menjadi `Disetujui` dan poin bintang bertambah secara otomatis ke profil anak.
