@@ -37,7 +37,7 @@
         </div>
         <div>
           <h1 class="font-extrabold text-sm text-slate-900 dark:text-slate-100">Piket Rumah Ceria</h1>
-          <p class="text-[10px] text-emerald-500 font-bold uppercase">Pro MAX Edition</p>
+          <p id="header-subtitle" class="text-[10px] text-emerald-500 font-bold uppercase">Mode Anak</p>
         </div>
       </div>
       
@@ -51,7 +51,7 @@
           <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow">Anak</button>
           <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 flex items-center space-x-1">
             <i class="fa-solid fa-lock text-[10px]"></i>
-            <span>Ortu</span>
+            <span id="label-mode-ortu">Ortu</span>
           </button>
         </div>
       </div>
@@ -60,7 +60,7 @@
 
   <main class="max-w-md mx-auto p-4 space-y-6">
 
-    <!-- Status Kebersihan Ruangan (Fitur #3) -->
+    <!-- Status Kebersihan Ruangan -->
     <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl shadow-xl backdrop-blur-md">
       <h2 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between">
         <span>Status Kebersihan Ruangan</span>
@@ -84,48 +84,56 @@
       </div>
     </section>
 
-    <!-- Profiles & Level (Fitur #4 & Ganti PP) -->
+    <!-- Profiles & Level -->
     <section class="grid grid-cols-2 gap-4">
       <!-- Alfatih -->
-      <div id="card-alfatih" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg">
-        <div class="relative w-20 h-20 mx-auto mb-2">
-          <img id="pp-alfatih" src="https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih" class="w-20 h-20 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border-2 border-indigo-500/40 p-1.5 shadow-xl">
-          <button type="button" onclick="gantiAvatar('Alfatih')" class="absolute bottom-0 right-0 w-6 h-6 bg-indigo-600 text-white rounded-full text-[10px] flex items-center justify-center shadow hover:bg-indigo-500" title="Ganti Avatar">
-            <i class="fa-solid fa-camera"></i>
-          </button>
+      <div id="card-alfatih" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg flex flex-col items-center">
+        <div class="relative w-20 h-20 mb-2">
+          <img id="pp-alfatih" src="https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih" class="w-20 h-20 mx-auto rounded-2xl bg-indigo-50 dark:bg-indigo-950/80 border-2 border-indigo-500/40 p-1.5 shadow-xl object-cover">
           <div id="banner-alfatih" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
             <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
               <i class="fa-solid fa-crown"></i><span>JUARA</span>
             </div>
           </div>
         </div>
+
         <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">Alfatih</h3>
         <p id="level-alfatih" class="text-[10px] text-indigo-500 font-bold mt-0.5">🧹 Pemula Kemoceng</p>
+        
         <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-xl text-amber-500 font-extrabold text-[11px]">
           <i class="fa-solid fa-star"></i>
           <span id="score-alfatih">0</span> Bintang
         </div>
+
+        <button type="button" onclick="bukaModalPP('Alfatih')" class="mt-3 text-[10px] bg-indigo-600 hover:bg-indigo-500 text-white font-bold py-1 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+          <i class="fa-solid fa-camera text-[9px]"></i>
+          <span>Ganti PP</span>
+        </button>
       </div>
 
       <!-- Syifa -->
-      <div id="card-syifa" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg">
-        <div class="relative w-20 h-20 mx-auto mb-2">
-          <img id="pp-syifa" src="https://api.dicebear.com/7.x/bottts/svg?seed=Syifa" class="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-950/80 border-2 border-pink-500/40 p-1.5 shadow-xl">
-          <button type="button" onclick="gantiAvatar('Syifa')" class="absolute bottom-0 right-0 w-6 h-6 bg-pink-600 text-white rounded-full text-[10px] flex items-center justify-center shadow hover:bg-pink-500" title="Ganti Avatar">
-            <i class="fa-solid fa-camera"></i>
-          </button>
+      <div id="card-syifa" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-4 rounded-3xl text-center relative shadow-lg flex flex-col items-center">
+        <div class="relative w-20 h-20 mb-2">
+          <img id="pp-syifa" src="https://api.dicebear.com/7.x/bottts/svg?seed=Syifa" class="w-20 h-20 mx-auto rounded-2xl bg-pink-50 dark:bg-pink-950/80 border-2 border-pink-500/40 p-1.5 shadow-xl object-cover">
           <div id="banner-syifa" class="hidden absolute -top-3.5 left-1/2 -translate-x-1/2 crown-float">
             <div class="bg-gradient-to-r from-amber-400 to-amber-500 text-slate-950 text-[9px] font-black px-2.5 py-0.5 rounded-full shadow-xl border border-yellow-100 whitespace-nowrap flex items-center space-x-1">
               <i class="fa-solid fa-crown"></i><span>JUARA</span>
             </div>
           </div>
         </div>
+
         <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-xs">Syifa</h3>
         <p id="level-syifa" class="text-[10px] text-pink-500 font-bold mt-0.5">🧹 Pemula Kemoceng</p>
+        
         <div class="mt-2 inline-flex items-center space-x-1 bg-amber-500/10 border border-amber-500/30 px-2.5 py-0.5 rounded-xl text-amber-500 font-extrabold text-[11px]">
           <i class="fa-solid fa-star"></i>
           <span id="score-syifa">0</span> Bintang
         </div>
+
+        <button type="button" onclick="bukaModalPP('Syifa')" class="mt-3 text-[10px] bg-pink-600 hover:bg-pink-500 text-white font-bold py-1 px-3 rounded-xl shadow flex items-center space-x-1 transition-all">
+          <i class="fa-solid fa-camera text-[9px]"></i>
+          <span>Ganti PP</span>
+        </button>
       </div>
     </section>
 
@@ -143,7 +151,7 @@
       </div>
     </section>
 
-    <!-- Form Absen Piket (Before & After - Fitur #5) -->
+    <!-- Form Absen Piket (Before & After) -->
     <section id="section-absen" class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center space-x-2">
@@ -198,7 +206,7 @@
       </div>
     </section>
 
-    <!-- Riwayat & Verifikasi (2 Akun Ortu: Abi / Mama) -->
+    <!-- Riwayat & Verifikasi Ortu -->
     <section class="bg-white/90 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 p-5 rounded-3xl space-y-4 shadow-xl">
       <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
         <div class="flex items-center space-x-2">
@@ -213,7 +221,39 @@
 
   </main>
 
-  <!-- Modal Security PIN Ortu & Pilih Akun (Abi/Mama) -->
+  <!-- Modal Ganti PP -->
+  <div id="pp-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative">
+      <button type="button" onclick="tutupModalPP()" class="absolute top-4 right-4 text-slate-400">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+      <div class="w-12 h-12 bg-indigo-500/10 text-indigo-500 rounded-2xl flex items-center justify-center mx-auto text-lg">
+        <i class="fa-solid fa-image"></i>
+      </div>
+      <div>
+        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Ganti Foto Profil <span id="nama-target-pp"></span></h3>
+        <p class="text-[11px] text-slate-500 mt-0.5">Upload Foto Galeri atau Ketik Nama Avatar Robot</p>
+      </div>
+
+      <div class="text-left bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Upload Foto Galeri</label>
+        <input type="file" id="input-pp-file" accept="image/*" class="w-full text-[10px] text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded-lg file:border-0 file:text-[10px] file:bg-indigo-600 file:text-white cursor-pointer">
+      </div>
+
+      <p class="text-[10px] font-bold text-slate-400">- ATAU -</p>
+
+      <div class="text-left bg-slate-50 dark:bg-slate-950 p-3 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <label class="block text-[11px] font-bold text-slate-600 dark:text-slate-400 mb-1">Ketik Nama Avatar Robot</label>
+        <input type="text" id="input-pp-seed" placeholder="Contoh: cool-bot, hero-99" class="w-full text-xs p-2 bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-800 rounded-xl outline-none text-slate-900 dark:text-slate-100">
+      </div>
+
+      <button type="button" onclick="simpanPPBaru()" class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-2xl text-xs uppercase shadow-lg">
+        Simpan PP Baru
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal PIN Security & Switcher Akun Ortu (Abi / Mama) -->
   <div id="pin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
     <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative">
       <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400">
@@ -223,13 +263,16 @@
         <i class="fa-solid fa-lock"></i>
       </div>
       <div>
-        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Akses Orang Tua</h3>
+        <h3 class="font-extrabold text-slate-900 dark:text-slate-100 text-sm">Verifikasi Orang Tua</h3>
         <p class="text-[11px] text-slate-500 mt-0.5">Pilih Akun & Masukkan PIN (1234)</p>
       </div>
-      <div class="grid grid-cols-2 gap-2">
-        <button type="button" onclick="selectParent('Abi')" id="btn-abi" class="py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow">👨 Abi</button>
-        <button type="button" onclick="selectParent('Mama')" id="btn-mama" class="py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs">👩 Mama</button>
+
+      <!-- Switcher Akun Ortu (Abi vs Mama) -->
+      <div class="grid grid-cols-2 gap-2 p-1 bg-slate-100 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800">
+        <button type="button" onclick="selectParent('Abi')" id="btn-abi" class="py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow">👨 Abi</button>
+        <button type="button" onclick="selectParent('Mama')" id="btn-mama" class="py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs">👩 Mama</button>
       </div>
+
       <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 bg-slate-50 dark:bg-slate-950 border border-slate-300 dark:border-slate-800 rounded-2xl text-amber-500 outline-none">
       <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg">
         Masuk Mode Ortu
@@ -240,13 +283,17 @@
   <script>
     let currentMode = 'anak';
     let selectedParent = 'Abi';
+    let targetPPNama = '';
     const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v6')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v6')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v6')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v6')) || { Alfatih: 'Alfatih', Syifa: 'Syifa' };
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v8')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v8')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v8')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v8')) || { 
+      Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
+      Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
+    };
 
     function toggleTheme() {
       const html = document.documentElement;
@@ -262,8 +309,8 @@
 
     function selectParent(parent) {
       selectedParent = parent;
-      document.getElementById('btn-abi').className = parent === 'Abi' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow' : 'py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs';
-      document.getElementById('btn-mama').className = parent === 'Mama' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs shadow' : 'py-2 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs';
+      document.getElementById('btn-abi').className = parent === 'Abi' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs';
+      document.getElementById('btn-mama').className = parent === 'Mama' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-400 font-bold text-xs';
     }
 
     function openPinModal() {
@@ -279,19 +326,24 @@
       if (document.getElementById('pin-input').value === DEFAULT_PIN) {
         closePinModal();
         switchMode('ortu');
-      } else { alert('PIN Salah! (Default: 1234)'); }
+      } else { alert('PIN Salah! (Default PIN: 1234)'); }
     }
 
     function switchMode(mode) {
       currentMode = mode;
       const btnAnak = document.getElementById('btn-mode-anak');
       const btnOrtu = document.getElementById('btn-mode-ortu');
+      const labelOrtu = document.getElementById('label-mode-ortu');
       const btnReset = document.getElementById('btn-reset-data');
+      const headerSubtitle = document.getElementById('header-subtitle');
       const roomBtns = document.querySelectorAll('.ortu-room-btn');
 
       if (mode === 'anak') {
         btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow';
         btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400 flex items-center space-x-1';
+        labelOrtu.innerText = 'Ortu';
+        headerSubtitle.innerText = 'Mode Anak';
+        headerSubtitle.className = 'text-[10px] text-emerald-500 font-bold uppercase';
         document.getElementById('section-absen').classList.remove('hidden');
         document.getElementById('ortu-winner-control').classList.add('hidden');
         btnReset.classList.add('hidden');
@@ -299,6 +351,9 @@
       } else {
         btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow flex items-center space-x-1';
         btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-400';
+        labelOrtu.innerText = selectedParent;
+        headerSubtitle.innerText = `Mode Orang Tua (${selectedParent})`;
+        headerSubtitle.className = 'text-[10px] text-amber-500 font-bold uppercase';
         document.getElementById('section-absen').classList.add('hidden');
         document.getElementById('ortu-winner-control').classList.remove('hidden');
         btnReset.classList.remove('hidden');
@@ -307,12 +362,36 @@
       renderApp();
     }
 
-    function gantiAvatar(nama) {
-      const benihBaru = prompt(`Masukkan nama karakter/seed baru untuk PP ${nama}:`, customAvatars[nama]);
-      if (benihBaru) {
-        customAvatars[nama] = benihBaru;
-        localStorage.setItem('piket_avatars_v6', JSON.stringify(customAvatars));
+    function bukaModalPP(nama) {
+      targetPPNama = nama;
+      document.getElementById('nama-target-pp').innerText = nama;
+      document.getElementById('input-pp-file').value = '';
+      document.getElementById('input-pp-seed').value = '';
+      document.getElementById('pp-modal').classList.remove('hidden');
+    }
+
+    function tutupModalPP() { document.getElementById('pp-modal').classList.add('hidden'); }
+
+    function simpanPPBaru() {
+      const fileInput = document.getElementById('input-pp-file');
+      const seedInput = document.getElementById('input-pp-seed').value.trim();
+
+      if (fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          customAvatars[targetPPNama] = e.target.result;
+          localStorage.setItem('piket_avatars_v8', JSON.stringify(customAvatars));
+          tutupModalPP();
+          renderApp();
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+      } else if (seedInput !== '') {
+        customAvatars[targetPPNama] = `https://api.dicebear.com/7.x/bottts/svg?seed=${encodeURIComponent(seedInput)}`;
+        localStorage.setItem('piket_avatars_v8', JSON.stringify(customAvatars));
+        tutupModalPP();
         renderApp();
+      } else {
+        alert('Pilih foto dari galeri ATAU ketik nama avatar dulu ya!');
       }
     }
 
@@ -322,7 +401,7 @@
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v6', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v8', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -365,7 +444,7 @@
         status: 'Menunggu Verifikasi',
         tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
       });
-      localStorage.setItem('piket_data_v6', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
       renderApp();
       alert('Absen piket Before & After berhasil dikirim!');
     }
@@ -380,8 +459,8 @@
         }
         return item;
       });
-      localStorage.setItem('piket_data_v6', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v6', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v8', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -393,10 +472,10 @@
     }
 
     function resetDataModal() {
-      if (confirm('Reset seluruh data & skor?')) {
+      if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v6', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v6', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v8', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v8', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -414,10 +493,10 @@
       document.getElementById('level-alfatih').innerText = getLevel(skorBintang.Alfatih);
       document.getElementById('level-syifa').innerText = getLevel(skorBintang.Syifa);
 
-      document.getElementById('pp-alfatih').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${customAvatars.Alfatih}`;
-      document.getElementById('pp-syifa').src = `https://api.dicebear.com/7.x/bottts/svg?seed=${customAvatars.Syifa}`;
+      document.getElementById('pp-alfatih').src = customAvatars.Alfatih;
+      document.getElementById('pp-syifa').src = customAvatars.Syifa;
 
-      // Room status
+      // Status kebersihan
       document.getElementById('txt-km').innerText = roomStatus.km.includes('Kotor') ? '🔴 Perlu Dibersihkan' : '🟢 Kinclong';
       document.getElementById('txt-km').className = roomStatus.km.includes('Kotor') ? 'text-[10px] text-rose-500 font-bold mt-0.5' : 'text-[10px] text-emerald-500 font-semibold mt-0.5';
       document.getElementById('txt-lantai').innerText = roomStatus.lantai.includes('Kotor') ? '🔴 Perlu Disapu' : '🟢 Bersih';
