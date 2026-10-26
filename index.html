@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Piket Rumah Ceria Pro Max Ultra - Alfatih & Syifa</title>
+  <title>Piket Rumah Ceria Liquid Glass Ultra - Alfatih & Syifa</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = { darkMode: 'class' }
@@ -118,18 +118,16 @@
         </div>
       </div>
       
-      <!-- Theme & Mode Switcher -->
+      <!-- Switcher Mode (Anak / Abi / Mama Instant Switcher - NO PIN) -->
       <div class="flex items-center space-x-2">
         <button type="button" onclick="toggleTheme()" class="w-9 h-9 rounded-2xl liquid-glass flex items-center justify-center text-slate-700 dark:text-amber-400 hover:scale-105 active:scale-95 transition-all">
           <i id="theme-icon" class="fa-solid fa-sun text-xs"></i>
         </button>
 
-        <div class="flex liquid-glass p-1 rounded-2xl text-xs font-semibold">
-          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all">Anak</button>
-          <button type="button" id="btn-mode-ortu" onclick="openPinModal()" class="px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all flex items-center space-x-1">
-            <i class="fa-solid fa-lock text-[10px]"></i>
-            <span id="label-mode-ortu">Ortu</span>
-          </button>
+        <div class="flex liquid-glass p-1 rounded-2xl text-[11px] font-bold">
+          <button type="button" id="btn-mode-anak" onclick="switchMode('anak')" class="px-2.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all">Anak</button>
+          <button type="button" id="btn-mode-abi" onclick="switchMode('ortu', 'Abi')" class="px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">👨 Abi</button>
+          <button type="button" id="btn-mode-mama" onclick="switchMode('ortu', 'Mama')" class="px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all">👩 Mama</button>
         </div>
       </div>
     </div>
@@ -184,7 +182,7 @@
 
         <input type="file" id="file-pp-alfatih" accept="image/*" class="hidden" onchange="uploadGaleriPP('Alfatih')">
         <button type="button" onclick="document.getElementById('file-pp-alfatih').click()" class="mt-3 text-[10px] bg-gradient-to-r from-indigo-600 to-indigo-500 hover:brightness-110 text-white font-black py-1.5 px-3 rounded-xl shadow-lg flex items-center space-x-1 active:scale-95 transition-all">
-          <i class="fa-solid fa-image text-[9px]"></i>
+          <i class="fa-solid fa-camera text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
@@ -210,7 +208,7 @@
 
         <input type="file" id="file-pp-syifa" accept="image/*" class="hidden" onchange="uploadGaleriPP('Syifa')">
         <button type="button" onclick="document.getElementById('file-pp-syifa').click()" class="mt-3 text-[10px] bg-gradient-to-r from-pink-600 to-pink-500 hover:brightness-110 text-white font-black py-1.5 px-3 rounded-xl shadow-lg flex items-center space-x-1 active:scale-95 transition-all">
-          <i class="fa-solid fa-image text-[9px]"></i>
+          <i class="fa-solid fa-camera text-[9px]"></i>
           <span>Ganti PP</span>
         </button>
       </div>
@@ -311,49 +309,21 @@
 
   </main>
 
-  <!-- Modal PIN Security Liquid Glass & Switcher Akun Ortu (Abi / Mama) -->
-  <div id="pin-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-    <div class="liquid-glass p-6 rounded-3xl max-w-xs w-full text-center space-y-4 shadow-2xl relative border-amber-500/30">
-      <button type="button" onclick="closePinModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-        <i class="fa-solid fa-xmark text-lg"></i>
-      </button>
-      <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-500 rounded-2xl flex items-center justify-center mx-auto text-lg">
-        <i class="fa-solid fa-lock"></i>
-      </div>
-      <div>
-        <h3 class="font-black text-slate-900 dark:text-slate-100 text-sm">Verifikasi Orang Tua</h3>
-        <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Pilih Akun & Masukkan PIN (1234)</p>
-      </div>
-
-      <!-- Switcher Akun Ortu (Abi vs Mama) -->
-      <div class="grid grid-cols-2 gap-2 p-1 rounded-2xl liquid-glass">
-        <button type="button" onclick="selectParent('Abi')" id="btn-abi" class="py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow">👨 Abi</button>
-        <button type="button" onclick="selectParent('Mama')" id="btn-mama" class="py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs">👩 Mama</button>
-      </div>
-
-      <input type="password" id="pin-input" maxlength="4" placeholder="••••" class="w-full text-center tracking-widest text-lg font-black p-3 liquid-glass rounded-2xl text-amber-500 outline-none focus:ring-2 focus:ring-amber-500">
-      <button type="button" onclick="verifyPin()" class="w-full py-3 bg-amber-500 text-slate-950 font-black rounded-2xl text-xs uppercase shadow-lg hover:brightness-110 active:scale-95 transition-all">
-        Masuk Mode Ortu
-      </button>
-    </div>
-  </div>
-
   <script>
     let currentMode = 'anak';
     let selectedParent = 'Abi';
-    const DEFAULT_PIN = '1234';
     let lastWinner = null;
 
-    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v13')) || [];
-    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v13')) || { Alfatih: 0, Syifa: 0 };
-    let roomStatus = JSON.parse(localStorage.getItem('room_status_v13')) || { km: 'Kinclong', lantai: 'Bersih' };
-    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v13')) || [];
-    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v13')) || { 
+    let dataPiket = JSON.parse(localStorage.getItem('piket_data_v14')) || [];
+    let skorBintang = JSON.parse(localStorage.getItem('piket_skor_v14')) || { Alfatih: 0, Syifa: 0 };
+    let roomStatus = JSON.parse(localStorage.getItem('room_status_v14')) || { km: 'Kinclong', lantai: 'Bersih' };
+    let hallOfFame = JSON.parse(localStorage.getItem('piket_hof_v14')) || [];
+    let customAvatars = JSON.parse(localStorage.getItem('piket_avatars_v14')) || { 
       Alfatih: 'https://api.dicebear.com/7.x/bottts/svg?seed=Alfatih', 
       Syifa: 'https://api.dicebear.com/7.x/bottts/svg?seed=Syifa' 
     };
 
-    // Synthesizer Native Web Audio Sound FX
+    // Native Web Audio Synthesizer SFX
     let audioCtx = null;
     function playSnd(type) {
       try {
@@ -415,47 +385,23 @@
       }
     }
 
-    function selectParent(parent) {
+    function switchMode(mode, parent = 'Abi') {
       playSnd('click');
-      selectedParent = parent;
-      document.getElementById('btn-abi').className = parent === 'Abi' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs';
-      document.getElementById('btn-mama').className = parent === 'Mama' ? 'py-2 rounded-xl bg-amber-500 text-slate-950 font-black text-xs shadow' : 'py-2 rounded-xl text-slate-600 dark:text-slate-300 font-bold text-xs';
-    }
-
-    function openPinModal() {
-      playSnd('click');
-      if (currentMode === 'ortu') { switchMode('anak'); return; }
-      document.getElementById('pin-modal').classList.remove('hidden');
-      document.getElementById('pin-input').value = '';
-      document.getElementById('pin-input').focus();
-    }
-
-    function closePinModal() {
-      playSnd('click');
-      document.getElementById('pin-modal').classList.add('hidden');
-    }
-
-    function verifyPin() {
-      if (document.getElementById('pin-input').value === DEFAULT_PIN) {
-        playSnd('star');
-        closePinModal();
-        switchMode('ortu');
-      } else { alert('PIN Salah! (Default PIN: 1234)'); }
-    }
-
-    function switchMode(mode) {
       currentMode = mode;
+      selectedParent = parent;
+
       const btnAnak = document.getElementById('btn-mode-anak');
-      const btnOrtu = document.getElementById('btn-mode-ortu');
-      const labelOrtu = document.getElementById('label-mode-ortu');
+      const btnAbi = document.getElementById('btn-mode-abi');
+      const btnMama = document.getElementById('btn-mode-mama');
       const btnReset = document.getElementById('btn-reset-data');
       const headerSubtitle = document.getElementById('header-subtitle');
       const roomBtns = document.querySelectorAll('.ortu-room-btn');
 
       if (mode === 'anak') {
-        btnAnak.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all';
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 flex items-center space-x-1';
-        labelOrtu.innerText = 'Ortu';
+        btnAnak.className = 'px-2.5 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg active:scale-95 transition-all';
+        btnAbi.className = 'px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+        btnMama.className = 'px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+        
         headerSubtitle.innerText = 'Mode Anak';
         headerSubtitle.className = 'text-[10px] text-emerald-500 dark:text-emerald-400 font-extrabold uppercase tracking-widest';
         document.getElementById('section-absen').classList.remove('hidden');
@@ -463,9 +409,15 @@
         btnReset.classList.add('hidden');
         roomBtns.forEach(b => b.classList.add('hidden'));
       } else {
-        btnOrtu.className = 'px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center space-x-1';
-        btnAnak.className = 'px-3 py-1.5 rounded-xl text-slate-600 dark:text-slate-300';
-        labelOrtu.innerText = selectedParent;
+        btnAnak.className = 'px-2.5 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+        if (parent === 'Abi') {
+          btnAbi.className = 'px-2 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg active:scale-95 transition-all';
+          btnMama.className = 'px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+        } else {
+          btnMama.className = 'px-2 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-black shadow-lg active:scale-95 transition-all';
+          btnAbi.className = 'px-2 py-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition-all';
+        }
+
         headerSubtitle.innerText = `Mode Orang Tua (${selectedParent})`;
         headerSubtitle.className = 'text-[10px] text-amber-500 font-extrabold uppercase tracking-widest';
         document.getElementById('section-absen').classList.add('hidden');
@@ -483,7 +435,7 @@
         reader.onload = function(e) {
           playSnd('star');
           customAvatars[nama] = e.target.result;
-          localStorage.setItem('piket_avatars_v13', JSON.stringify(customAvatars));
+          localStorage.setItem('piket_avatars_v14', JSON.stringify(customAvatars));
           renderApp();
         };
         reader.readAsDataURL(inputEl.files[0]);
@@ -497,7 +449,7 @@
       } else {
         roomStatus.lantai = roomStatus.lantai === 'Bersih' ? 'Kotor 🔴' : 'Bersih';
       }
-      localStorage.setItem('room_status_v13', JSON.stringify(roomStatus));
+      localStorage.setItem('room_status_v14', JSON.stringify(roomStatus));
       renderApp();
     }
 
@@ -520,7 +472,7 @@
           status: 'Menunggu Verifikasi',
           tanggal: new Date().toLocaleDateString('id-ID', { weekday: 'long', day: 'numeric', month: 'short' })
         });
-        localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_data_v14', JSON.stringify(dataPiket));
         document.getElementById('input-catatan').value = '';
         renderApp();
         alert('Absen piket berhasil dikirim!');
@@ -547,8 +499,8 @@
         }
         return item;
       });
-      localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
-      localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
+      localStorage.setItem('piket_data_v14', JSON.stringify(dataPiket));
+      localStorage.setItem('piket_skor_v14', JSON.stringify(skorBintang));
       renderApp(true);
     }
 
@@ -588,8 +540,8 @@
         });
 
         skorBintang = { Alfatih: 0, Syifa: 0 };
-        localStorage.setItem('piket_hof_v13', JSON.stringify(hallOfFame));
-        localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_hof_v14', JSON.stringify(hallOfFame));
+        localStorage.setItem('piket_skor_v14', JSON.stringify(skorBintang));
         renderApp();
       }
     }
@@ -598,8 +550,8 @@
       if (confirm(`Apakah ${selectedParent} yakin ingin mereset seluruh data & skor?`)) {
         playSnd('click');
         dataPiket = []; skorBintang = { Alfatih: 0, Syifa: 0 }; lastWinner = null;
-        localStorage.setItem('piket_data_v13', JSON.stringify(dataPiket));
-        localStorage.setItem('piket_skor_v13', JSON.stringify(skorBintang));
+        localStorage.setItem('piket_data_v14', JSON.stringify(dataPiket));
+        localStorage.setItem('piket_skor_v14', JSON.stringify(skorBintang));
         renderApp();
       }
     }
